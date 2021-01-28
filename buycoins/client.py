@@ -16,7 +16,7 @@ class BuyCoinsClient:
     def _initiate_client(self):
         self._split_auth_key()
         self.auth = HTTPBasicAuth(self.__username, self.__password)
-        self.client = GraphqlClient(self.__endpoint)
+        self.client = GraphqlClient(self.__endpoint, auth=self.auth)
         return self.client
 
     def _execute_request(self, query: str, variables: dict= {}):
@@ -24,4 +24,4 @@ class BuyCoinsClient:
             raise QueryError("Invalid query passed!")
 
         self._initiate_client()
-        return self.client.execute(query=query, variables=variables, auth=self.auth)
+        return self.client.execute(query=query, variables=variables)

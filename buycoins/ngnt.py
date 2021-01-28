@@ -33,4 +33,4 @@ class NGNT(BuyCoinsClient):
 
         request = self._execute_request(query=self.query, variables=variables)
 
-        return request
+        return request['data']

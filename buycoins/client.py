@@ -15,13 +15,13 @@ class BuyCoinsClient:
 
     def _initiate_client(self):
         self._split_auth_key()
-        self.auth = HTTPBasicAuth(self.__username, self.__password)
-        self.client = GraphqlClient(self.__endpoint, auth=self.auth)
-        return self.client
+        self.__auth = HTTPBasicAuth(self.__username, self.__password)
+        self.__client = GraphqlClient(self.__endpoint, auth=self.__auth)
+        return self.__client
 
     def _execute_request(self, query: str, variables: dict= {}):
         if not query or query == "":
             raise QueryError("Invalid query passed!")
 
         self._initiate_client()
-        return self.client.execute(query=query, variables=variables)
+        return self.__client.execute(query=query, variables=variables)

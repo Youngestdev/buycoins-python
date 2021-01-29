@@ -28,11 +28,13 @@ class NGNT(BuyCoinsClient):
         if not accountName:
             raise AccountError("Invalid account name passed")
 
-        variables = {
-            "accountName": accountName
+        self.accountName = accountName
+
+        __variables = {
+            "accountName": self.accountName
         }
 
-        self.query = """
+        self.__query = """
             mutation createDepositAccount($accountName: String!) {
                 createDepositAccount(accountName: $accountName) {
                     accountNumber
@@ -44,6 +46,6 @@ class NGNT(BuyCoinsClient):
             }
         """
 
-        request = self._execute_request(query=self.query, variables=variables)
+        request = self._execute_request(query=self.__query, variables=__variables)
 
         return request['data']['createDepositAccount']

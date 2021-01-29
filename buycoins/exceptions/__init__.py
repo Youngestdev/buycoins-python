@@ -1,1 +1,1 @@
-from .exceptions import QueryError
+from .exceptions import *

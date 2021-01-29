@@ -1,4 +1,5 @@
 from buycoins.client import BuyCoinsClient
+from buycoins.exceptions import P2PError
 
 
 class P2P(BuyCoinsClient):
@@ -10,6 +11,9 @@ class P2P(BuyCoinsClient):
 
     def __init__(self, auth_key: str):
         super().__init__(auth_key)
+        self.supported_cryptocurrencies = ["bitcoin", "ethereum", "litecoin", "naira_token", "usd_coin", "usd_tether"]
+        self.side = ["buy", "sell"]
+        self.status = ["open", "completed"]
 
     def getCurrentPrice(self, side: str = "buy", currency: str = "bitcoin"):
         """Retrieves the current `side` price for the supplied cryptocurrency.
@@ -21,10 +25,12 @@ class P2P(BuyCoinsClient):
         Returns:
             response: A JSON object containing response from the request.
         """
-        if not side:
-            side = "buy"
-        if not currency:
-            currency = "bitcoin"
+
+        if currency not in self.supported_cryptocurrencies:
+            raise P2PError("Invalid or unsupported cryptocurrency")
+
+        if side not in self.side:
+            return P2PError("Invalid order side")
 
         self.query = """
             query GetBuyCoinsPrices($side: OrderSide, $currency: Cryptocurrency) {
@@ -63,6 +69,16 @@ class P2P(BuyCoinsClient):
             response: A JSON object containing the response from the request.
 
         """
+
+        if status not in self.status:
+            raise P2PError("Invalid status passed")
+
+        if side not in self.side:
+            raise P2PError("Invalid side passed")
+
+        if currency not in self.supported_cryptocurrencies:
+            raise P2PError("Invalid or unsupported cryptocurrency")
+
         self.query = """
             query GetOrders($status: GetOrdersStatus!, $side: OrderSide, $currency: Cryptocurrency){
                 getOrders(status: $status, side: $side, cryptocurrency: $currency) {
@@ -95,6 +111,13 @@ class P2P(BuyCoinsClient):
             response: A JSON object containing the result from the request.
 
         """
+
+        if orderSide not in self.side:
+            raise P2PError("Invalid side passed")
+
+        if currency not in self.supported_cryptocurrencies:
+            raise P2PError("Invalid or unsupported cryptocurrency")
+
         self.query = """
             mutation PostLimitOrder($orderSide: OrderSide!, $coinAmount: BigDecimal!, $cryptocurrency: Cryptocurrency, $staticPrice: BigDecimal, $priceType: PriceType!){
                 postLimitOrder(orderSide: $orderSide, coinAmount: $coinAmount, cryptocurrency: $cryptocurrency, staticPrice: $staticPrice, priceType: $priceType) {
@@ -135,6 +158,12 @@ class P2P(BuyCoinsClient):
             response: A JSON object containing the response from the request.
 
         """
+        if orderSide not in self.side:
+            raise P2PError("Invalid side passed")
+
+        if currency not in self.supported_cryptocurrencies:
+            raise P2PError("Invalid or unsupported cryptocurrency")
+
         self.query = """
             mutation PostMarketOrder($ordersSide: OrderSide!, $coinAmount: BigDecimal!, $cryptocurrency: Cryptocurrency){
                 postMarketOrder(orderSide: $orderSide, coinAmount: $coinAmount, cryptocurrency: $cryptocurrency){
@@ -171,6 +200,10 @@ class P2P(BuyCoinsClient):
             response: A JSON object containing the response from the request.
 
         """
+
+        if status not in self.status:
+            raise P2PError("Invalid status passed")
+
         self.query = """
             query GetOrders($status: GetOrdersStatus!){
                 getOrders(status: $status, side: $side, cryptocurrency: $currency) {

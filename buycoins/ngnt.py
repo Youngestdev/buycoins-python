@@ -46,6 +46,6 @@ class NGNT(BuyCoinsClient):
             }
         """
 
-        request = self._execute_request(query=self.__query, variables=__variables)
+        response = self._execute_request(query=self.__query, variables=__variables)
 
-        return request['data']['createDepositAccount']
+        return response['data']['createDepositAccount']

@@ -1,5 +1,6 @@
 from buycoins.client import BuyCoinsClient
-from buycoins.exceptions import AccountError
+from buycoins.errors import check_response
+from buycoins.exceptions import AccountError, ClientError
 
 
 class NGNT(BuyCoinsClient):
@@ -45,7 +46,36 @@ class NGNT(BuyCoinsClient):
               }
             }
         """
+        try:
+            response = self._execute_request(query=self.__query, variables=__variables)
+            check_response(AccountError, response)
+        except (AccountError, ClientError) as e:
+            return e.args
+        else:
+            return response["data"]["createDepositAccount"]
 
-        response = self._execute_request(query=self.__query, variables=__variables)
+    def getBalances(self):
+        """Retrieves user cryptocurrency balances>
 
-        return response['data']['createDepositAccount']
+        Returns:
+            response: A JSON object containing the user crypotcurrency balances.
+
+        """
+
+        self.__query = """
+            query {
+                getBalances {
+                    id
+                    cryptocurrency
+                    confirmedBalance
+                }
+            }
+        """
+
+        try:
+            response = self._execute_request(query=self.__query)
+            check_response(AccountError, response)
+        except (AccountError, ClientError) as e:
+            return e.args
+        else:
+            return response["data"]["getBalances"]

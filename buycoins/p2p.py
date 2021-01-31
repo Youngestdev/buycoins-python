@@ -58,7 +58,7 @@ class P2P(BuyCoinsClient):
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(P2PError, response)
-        except P2PError as e:
+        except (P2PError, ClientError) as e:
             return e.args
         else:
             return response["data"]["getPrices"]
@@ -102,7 +102,7 @@ class P2P(BuyCoinsClient):
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(P2PError, response)
-        except P2PError as e:
+        except (P2PError, ClientError) as e:
             return e.args
         else:
             return response["data"]["getOrders"]
@@ -157,7 +157,7 @@ class P2P(BuyCoinsClient):
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(P2PError, response)
-        except P2PError as e:
+        except (P2PError, ClientError) as e:
             return e.args
         else:
             return response["data"]["postLimitOrder"]
@@ -206,7 +206,7 @@ class P2P(BuyCoinsClient):
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(P2PError, response)
-        except P2PError as e:
+        except (P2PError, ClientError) as e:
             return e.args
         else:
             return response["data"]["postMarketOrder"]

@@ -5,8 +5,7 @@ from buycoins.p2p import P2P
 
 class Wallet(BuyCoinsClient):
     """The Wallet class handles buying, selling, recieving and sending transactions.
-    Also handles Wallet Account Creation
-
+    Also handles creation and retrival of recieving addresses.
     Args:
         auth_key (str): Authentication key in `public_key:private_key` string form.
     """

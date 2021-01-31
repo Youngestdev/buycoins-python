@@ -1,11 +1,11 @@
 from buycoins.client import BuyCoinsClient
-from buycoins.exceptions import WalletError
+from buycoins.exceptions import WalletError, ClientError
 from buycoins.errors import check_response
 from buycoins.p2p import P2P
 
 class Wallet(BuyCoinsClient):
-    """The Wallet class handles buying, selling, recieving and sending transactions.
-    Also handles creation and retrival of recieving addresses.
+    """The Wallet class handles the buying, selling, buy transactions and the generation of wallet address 
+    for receiving cryptocurrencies
     Args:
         auth_key (str): Authentication key in `public_key:private_key` string form.
     """
@@ -31,7 +31,7 @@ class Wallet(BuyCoinsClient):
 
         p2p = P2P(self.auth_key)
         price_info = p2p.getCurrentPrice(side="buy", currency=currency)
-        price_id = price_id = price_info[0]['id']
+        price_id = price_info[0]['id']
         self.__query = """
             mutation BuyCoin($price: ID!, $coin_amount: BigDecimal!, $currency: Cryptocurrency){
                     buy(price: $price, coin_amount: $coin_amount, cryptocurrency: $currency) {
@@ -52,7 +52,7 @@ class Wallet(BuyCoinsClient):
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(WalletError, response)
-        except WalletError as e:
+        except (WalletError, ClientError) as e:
             return e.args
         else:
             return response["data"]["buy"]
@@ -95,7 +95,7 @@ class Wallet(BuyCoinsClient):
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(WalletError, response)
-        except WalletError as e:
+        except (WalletError, ClientError) as e:
             return e.args
         else:
             return response["data"]["sell"]
@@ -131,7 +131,7 @@ class Wallet(BuyCoinsClient):
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(WalletError, response)
-        except WalletError as e:
+        except (WalletError, ClientError) as e:
             return e.args
         else:
             return response["data"]["getEstimatedNetworkFee"]
@@ -165,45 +165,10 @@ class Wallet(BuyCoinsClient):
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(WalletError, response)
-        except WalletError as e:
+        except (WalletError, ClientError) as e:
             return e.args
         else:
-            return response["data"]["createAddress"]
-    
-    def getAccountBalance(self, currency: str = "bitcoin"):
-        """Retrieves a wallet address for the supplied cryptocurrency.
-
-        Args:
-            currency (str): The cryptocurrency wallet address to be retrieved.
-
-        Returns:
-            response: A JSON object containing response from the request.
-        """
-
-        if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
-
-        self.__query = """
-            query GetAccountBalance($currency: Cryptocurrency) {
-                getBalances(cryptocurrency: $currency){
-                    id
-                    cryptocurrency
-                    confirmedBalance
-                }
-            }
-        """
-
-        __variables = {
-            "currency": currency
-        }
-
-        try:
-            response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
-        except WalletError as e:
-            return e.args
-        else:
-            return response["data"]["getBalances"]
+            return response["data"]["createAddress"]   
     
     def sendCrypto(self, address: str, currency: str = "bitcoin", amount: float = 0.01):
         """Sells a cryptocurrency, for the given amount passed.
@@ -219,7 +184,7 @@ class Wallet(BuyCoinsClient):
         if currency not in self.supported_cryptocurrencies:
             raise WalletError("Invalid or unsupported cryptocurrency")
 
-        if len(address) == 34:
+        if len(address) != 34:
             raise WalletError("Invalid address")
 
         self.__query = """
@@ -248,7 +213,7 @@ class Wallet(BuyCoinsClient):
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(WalletError, response)
-        except WalletError as e:
+        except (WalletError, ClientError) as e:
             return e.args
         else:
             return response["data"]["SendCoin"]

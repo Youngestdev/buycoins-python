@@ -54,7 +54,7 @@ class P2P(BuyCoinsClient):
             "currency": currency
         }
 
-        response = self._execute_request(self.__query, variables=__variables)
+        response = self._execute_request(self.__query, variables)
         return response
 
     def getDynamicPriceExpiry(self, status: str = "open", side: str = "buy", currency: str = "bitcoin"):
@@ -165,7 +165,7 @@ class P2P(BuyCoinsClient):
             raise P2PError("Invalid or unsupported cryptocurrency")
 
         self.__query = """
-            mutation PostMarketOrder($orderSide: OrderSide!, $coinAmount: BigDecimal!, $cryptocurrency: Cryptocurrency){
+            mutation PostMarketOrder($ordersSide: OrderSide!, $coinAmount: BigDecimal!, $cryptocurrency: Cryptocurrency){
                 postMarketOrder(orderSide: $orderSide, coinAmount: $coinAmount, cryptocurrency: $cryptocurrency){
                     id
                     cryptocurrency
@@ -182,12 +182,12 @@ class P2P(BuyCoinsClient):
         """
 
         __variables = {
-            "orderSide": orderSide,
+            "orderside": orderSide,
             "coinAmount": coinAmount,
             "cryptocurrency": currency,
         }
 
-        response = self._execute_request(query=self.__query, variables=__variables)
+        response = self._execute_request(query=self.__query, variables=variables)
         return response
 
     def getOrders(self, status: str = "open"):

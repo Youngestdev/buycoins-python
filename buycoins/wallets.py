@@ -1,5 +1,6 @@
 from buycoins.client import BuyCoinsClient
 from buycoins.exceptions import WalletError
+from buycoins.errors import check_response
 from buycoins.p2p import P2P
 
 class Wallet(BuyCoinsClient):
@@ -15,7 +16,7 @@ class Wallet(BuyCoinsClient):
         self.supported_cryptocurrencies = ["bitcoin", "ethereum", "litecoin", "naira_token", "usd_coin", "usd_tether"]
         self.status = ["open", "completed"]
 
-    def BuyCrypto(self, currency: str = "bitcoin", coin_amount: float = 0.01):
+    def buyCrypto(self, currency: str = "bitcoin", coin_amount: float = 0.01):
         """Buys a cryptocurrency, for the given amount passed.
 
         Args:
@@ -31,7 +32,7 @@ class Wallet(BuyCoinsClient):
 
         p2p = P2P(self.auth_key)
         price_info = p2p.getCurrentPrice(side="buy", currency=currency)
-        price = price_info['data']['getPrices'][0]['id']
+        price_id = price_id = price_info[0]['id']
         self.__query = """
             mutation BuyCoin($price: ID!, $coin_amount: BigDecimal!, $currency: Cryptocurrency){
                     buy(price: $price, coin_amount: $coin_amount, cryptocurrency: $currency) {
@@ -45,15 +46,19 @@ class Wallet(BuyCoinsClient):
             """
 
         __variables = {
-            "price": price ,
+            "price": price_id,
             "coin_amount": coin_amount,
             "currency": currency
         }
-
-        response = self._execute_request(self.__query, variables=__variables)
-        return response
+        try:
+            response = self._execute_request(query=self.__query, variables=__variables)
+            check_response(WalletError, response)
+        except WalletError as e:
+            return e.args
+        else:
+            return response["data"]["buy"]
     
-    def SellCrypto(self, currency: str = "bitcoin", coin_amount: float = 0.01):
+    def sellCrypto(self, currency: str = "bitcoin", coin_amount: float = 0.01):
         """Sells a cryptocurrency, for the given amount passed.
 
         Args:
@@ -69,7 +74,7 @@ class Wallet(BuyCoinsClient):
 
         p2p = P2P(self.auth_key)
         price_info = p2p.getCurrentPrice(side="sell", currency=currency)
-        price = price_info['data']['getPrices'][0]['id']
+        price_id = price_info[0]['id']
         self.__query = """
             mutation SellCoin($price: ID!, $coin_amount: BigDecimal!, $currency: Cryptocurrency){
                     sell(price: $price, coin_amount: $coin_amount, cryptocurrency: $currency) {
@@ -83,15 +88,20 @@ class Wallet(BuyCoinsClient):
             """
 
         __variables = {
-            "price": price ,
+            "price": price_id,
             "coin_amount": coin_amount,
             "currency": currency
         }
 
-        response = self._execute_request(self.__query, variables=__variables)
-        return response
+        try:
+            response = self._execute_request(query=self.__query, variables=__variables)
+            check_response(WalletError, response)
+        except WalletError as e:
+            return e.args
+        else:
+            return response["data"]["sell"]
     
-    def NetworkFee(self, currency: str = "bitcoin", amount: str = 0.01):
+    def getNetworkFee(self, currency: str = "bitcoin", amount: str = 0.01):
         """Retrieves NetworkFee for the supplied cryptocurrency.
 
         Args:
@@ -119,10 +129,15 @@ class Wallet(BuyCoinsClient):
             "amount": amount
         }
 
-        response = self._execute_request(self.__query, variables=__variables)
-        return response
+        try:
+            response = self._execute_request(query=self.__query, variables=__variables)
+            check_response(WalletError, response)
+        except WalletError as e:
+            return e.args
+        else:
+            return response["data"]["getEstimatedNetworkFee"]
     
-    def CreateAddress(self, currency: str = "bitcoin"):
+    def createAddress(self, currency: str = "bitcoin"):
         """Creates a wallet address for the supplied cryptocurrency.
 
         Args:
@@ -148,10 +163,15 @@ class Wallet(BuyCoinsClient):
             "currency": currency
         }
 
-        response = self._execute_request(self.__query, variables=__variables)
-        return response
+        try:
+            response = self._execute_request(query=self.__query, variables=__variables)
+            check_response(WalletError, response)
+        except WalletError as e:
+            return e.args
+        else:
+            return response["data"]["createAddress"]
     
-    def GetAccountBalance(self, currency: str = "bitcoin"):
+    def getAccountBalance(self, currency: str = "bitcoin"):
         """Retrieves a wallet address for the supplied cryptocurrency.
 
         Args:
@@ -178,10 +198,15 @@ class Wallet(BuyCoinsClient):
             "currency": currency
         }
 
-        response = self._execute_request(self.__query, variables=__variables)
-        return response
+        try:
+            response = self._execute_request(query=self.__query, variables=__variables)
+            check_response(WalletError, response)
+        except WalletError as e:
+            return e.args
+        else:
+            return response["data"]["getBalances"]
     
-    def SendCrypto(self, currency: str = "bitcoin", amount: float = 0.01, address: str = "1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf"):
+    def sendCrypto(self, address: str, currency: str = "bitcoin", amount: float = 0.01):
         """Sells a cryptocurrency, for the given amount passed.
 
         Args:
@@ -195,6 +220,9 @@ class Wallet(BuyCoinsClient):
         if currency not in self.supported_cryptocurrencies:
             raise WalletError("Invalid or unsupported cryptocurrency")
 
+        if len(address) == 34:
+            raise WalletError("Invalid address")
+
         self.__query = """
             mutation SendCrypto($amount: BigDecimal!, $currency: Cryptocurrency, $address:String!){
                 send SendCoin(cryptocurrency: $currency, amount:$amount, address:address) {
@@ -205,11 +233,11 @@ class Wallet(BuyCoinsClient):
                     fee
                     status
                     transaction {
-                            hash
-                    id
+                        txhash
+                        id
                     }
                 }
-                }
+            }
             """
 
         __variables = {
@@ -218,5 +246,10 @@ class Wallet(BuyCoinsClient):
             "currency": currency
         }
 
-        response = self._execute_request(self.__query, variables=__variables)
-        return response
+        try:
+            response = self._execute_request(query=self.__query, variables=__variables)
+            check_response(WalletError, response)
+        except WalletError as e:
+            return e.args
+        else:
+            return response["data"]["SendCoin"]

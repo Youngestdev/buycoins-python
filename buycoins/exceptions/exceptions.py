@@ -61,5 +61,5 @@ class WalletError(Exception):
         if self.message:
             return 'Wallet, {0} '.format(self.message)
         else:
-            return 'An WalletError has been raised'
+            return 'A WalletError has been raised'
 

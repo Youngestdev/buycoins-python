@@ -180,4 +180,43 @@ class Wallet(BuyCoinsClient):
 
         response = self._execute_request(self.__query, variables=__variables)
         return response
+    
+    def SendCrypto(self, currency: str = "bitcoin", amount: float = 0.01, address: str = "1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf"):
+        """Sells a cryptocurrency, for the given amount passed.
 
+        Args:
+            currency (str): The cryptocurrency to be sold.
+            coin_amount(float): Amount of currency to be bought.
+
+        Returns:
+            response: A JSON object containing response from the request.
+        """
+
+        if currency not in self.supported_cryptocurrencies:
+            raise WalletError("Invalid or unsupported cryptocurrency")
+
+        self.__query = """
+            mutation SendCrypto($amount: BigDecimal!, $currency: Cryptocurrency, $address:String!){
+                send SendCoin(cryptocurrency: $currency, amount:$amount, address:address) {
+                    id
+                    address
+                    amount
+                    cryptocurrency
+                    fee
+                    status
+                    transaction {
+                            hash
+                    id
+                    }
+                }
+                }
+            """
+
+        __variables = {
+            "address": address,
+            "amount": amount,
+            "currency": currency
+        }
+
+        response = self._execute_request(self.__query, variables=__variables)
+        return response

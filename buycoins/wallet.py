@@ -97,12 +97,12 @@ class Wallet(BuyCoinsClient):
         else:
             return response["data"]["sell"]
 
-    def getNetworkFee(self, currency: str = "bitcoin", amount: str = 0.01):
+    def getNetworkFee(self, currency: str = "bitcoin", coin_amount: float = 0.01):
         """Retrieves NetworkFee for the supplied cryptocurrency.
 
         Args:
             currency (str): The cryptocurrency whose network fee is been checked.
-            amount(float): Amount of currency.
+            coin_amount(float): Amount of currency.
 
         Returns:
             response: A JSON object containing response from the request.
@@ -122,7 +122,7 @@ class Wallet(BuyCoinsClient):
 
         __variables = {
             "currency": currency,
-            "amount": amount
+            "amount": coin_amount
         }
 
         try:

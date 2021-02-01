@@ -13,7 +13,7 @@ You can view the documentation for the BuyCoins Python library [here](https://bu
 This package can be installed from [pypi]() using the command:
 
 ```shell
-pip install buycoins
+pip install buycoins-python
 ```
 
 Install from source:

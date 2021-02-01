@@ -6,8 +6,8 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(
-    name="buycoins",
-    version="0.1",
+    name="buycoins-python",
+    version="0.1.2",
     description="Python SDK for the BuyCoin\"s API",
     long_description=README,
     long_description_content_type="text/markdown",

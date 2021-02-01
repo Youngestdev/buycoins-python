@@ -172,7 +172,7 @@ class Wallet(BuyCoinsClient):
 
         Args:
             currency (str): The cryptocurrency to be sold.
-            coin_amount(float): Amount of currency to be bought.
+            amount(float): Amount of currency to be bought.
 
         Returns:
             response: A JSON object containing response from the request.

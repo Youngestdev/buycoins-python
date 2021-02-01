@@ -1,17 +1,26 @@
+import pathlib
 from setuptools import setup, find_packages
 
-with open("README.md", "r", encoding="utf-8") as readme:
-    long_description = readme.read()
+HERE = pathlib.Path(__file__).parent
+
+README = (HERE / "README.md").read_text()
 
 setup(
-    name='buycoins',
-    version='0.1.1',
-    description='Python SDK for the BuyCoin\'s API',
-    url='https://github.com/Youngestdev/BuyCoins-Python',
+    name="buycoins-python",
+    version="0.2.1",
+    description="Python SDK for the BuyCoin\"s API",
+    long_description=README,
+    long_description_content_type="text/markdown",
+    url="https://github.com/Youngestdev/BuyCoins-Python",
     author="Abdulazeez Abdulazeez Adeshina",
-    author_email='youngestdev@gmail.com',
-    license = 'LICENSE',
-    install_requires=['python-graphql-client', 'requests'],
+    author_email="youngestdev@gmail.com",
+    license="MIT",
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+    ],
+    install_requires=["python-graphql-client", "requests", "python-decouple"],
     packages=find_packages(),
-    python_requires='>=3.6'
+    python_requires=">=3.6"
 )

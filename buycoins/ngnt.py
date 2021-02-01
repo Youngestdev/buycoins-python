@@ -5,15 +5,7 @@ from buycoins.exceptions import AccountError, ClientError
 
 class NGNT(BuyCoinsClient):
     """The NGNT class handles the generations of virtual bank deposit account.
-
-    Args:
-        auth_key (str): Authentication key in `public_key:private_key` string form.
-
-
     """
-
-    def __init__(self, auth_key: str):
-        super().__init__(auth_key)
 
     def createDepositAccount(self, accountName: str):
         """Creates a virtual deposit account under the supplied name.
@@ -53,29 +45,3 @@ class NGNT(BuyCoinsClient):
             return e.args
         else:
             return response["data"]["createDepositAccount"]
-
-    def getBalances(self):
-        """Retrieves user cryptocurrency balances>
-
-        Returns:
-            response: A JSON object containing the user crypotcurrency balances.
-
-        """
-
-        self.__query = """
-            query {
-                getBalances {
-                    id
-                    cryptocurrency
-                    confirmedBalance
-                }
-            }
-        """
-
-        try:
-            response = self._execute_request(query=self.__query)
-            check_response(AccountError, response)
-        except (AccountError, ClientError) as e:
-            return e.args
-        else:
-            return response["data"]["getBalances"]

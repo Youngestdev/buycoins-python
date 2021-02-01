@@ -1,13 +1,13 @@
 from buycoins.client import BuyCoinsClient
-from buycoins.exceptions import WalletError, ClientError
 from buycoins.errors import check_response
+from buycoins.exceptions import WalletError, ClientError
 from buycoins.p2p import P2P
+
 
 class Wallet(BuyCoinsClient):
     """The Wallet class handles the buying, selling, buy transactions and the generation of wallet address 
     for receiving cryptocurrencies.
     """
-
 
     supported_cryptocurrencies = ["bitcoin", "ethereum", "litecoin", "naira_token", "usd_coin", "usd_tether"]
     status = ["open", "completed"]
@@ -53,7 +53,7 @@ class Wallet(BuyCoinsClient):
             return e.args
         else:
             return response["data"]["buy"]
-    
+
     def sellCrypto(self, currency: str = "bitcoin", coin_amount: float = 0.01):
         """Sells a cryptocurrency, for the given amount passed.
 
@@ -96,7 +96,7 @@ class Wallet(BuyCoinsClient):
             return e.args
         else:
             return response["data"]["sell"]
-    
+
     def getNetworkFee(self, currency: str = "bitcoin", amount: str = 0.01):
         """Retrieves NetworkFee for the supplied cryptocurrency.
 
@@ -132,7 +132,7 @@ class Wallet(BuyCoinsClient):
             return e.args
         else:
             return response["data"]["getEstimatedNetworkFee"]
-    
+
     def createAddress(self, currency: str = "bitcoin"):
         """Creates a wallet address for the supplied cryptocurrency.
 
@@ -165,8 +165,8 @@ class Wallet(BuyCoinsClient):
         except (WalletError, ClientError) as e:
             return e.args
         else:
-            return response["data"]["createAddress"]   
-    
+            return response["data"]["createAddress"]
+
     def sendCrypto(self, address: str, currency: str = "bitcoin", amount: float = 0.01):
         """Sells a cryptocurrency, for the given amount passed.
 
@@ -214,3 +214,29 @@ class Wallet(BuyCoinsClient):
             return e.args
         else:
             return response["data"]["SendCoin"]
+
+    def getBalances(self):
+        """Retrieves user cryptocurrency balances
+
+        Returns:
+            response: A JSON object containing the user cryptocurrency balances.
+
+        """
+
+        self.__query = """
+            query {
+                getBalances {
+                    id
+                    cryptocurrency
+                    confirmedBalance
+                }
+            }
+        """
+
+        try:
+            response = self._execute_request(query=self.__query)
+            check_response(WalletError, response)
+        except (WalletError, ClientError) as e:
+            return e.args
+        else:
+            return response["data"]["getBalances"]

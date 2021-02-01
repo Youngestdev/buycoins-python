@@ -1,9 +1,8 @@
 from requests import HTTPError
+from requests.models import Response
 
-from buycoins.exceptions import ClientError
 
-
-def check_response(exception, response):
+def check_response(exception, response, error_code):
     """Checks for exceptions and raises them.
 
     Args:
@@ -13,9 +12,14 @@ def check_response(exception, response):
     Returns:
 
     """
-    if type(response) == HTTPError:
-        raise ClientError("Invalid Authentication Key!")
+    if type(response) == Response:
+        return {
+            "status_code": response.status_code,
+            "message": response.reason
+        }
 
     if "errors" in response:
         error = response["errors"]
-        raise exception(error[0]["message"])
+        raise exception(error[0]["message"], error_code)
+
+    return None

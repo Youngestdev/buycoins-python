@@ -24,7 +24,7 @@ class Wallet(BuyCoinsClient):
         """
 
         if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
+            return WalletError("Invalid or unsupported cryptocurrency").response
 
         p2p = P2P()
         price_info = p2p.getCurrentPrice(side="buy", currency=currency)
@@ -48,11 +48,12 @@ class Wallet(BuyCoinsClient):
         }
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
-            return response["data"]["buy"]
+            if not check_response(WalletError, response, 404):
+                return response["data"]["buy"]
+            return check_response(WalletError, response, 404)
 
     def sellCrypto(self, currency: str = "bitcoin", coin_amount: float = 0.01):
         """Sells a cryptocurrency, for the given amount passed.
@@ -66,7 +67,7 @@ class Wallet(BuyCoinsClient):
         """
 
         if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
+            return WalletError("Invalid or unsupported cryptocurrency", 404).response
 
         p2p = P2P()
         price_info = p2p.getCurrentPrice(side="sell", currency=currency)
@@ -91,11 +92,12 @@ class Wallet(BuyCoinsClient):
 
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
-            return response["data"]["sell"]
+            if not check_response(WalletError, response, 404):
+                return response["data"]["sell"]
+            return check_response(WalletError, response, 404)
 
     def getNetworkFee(self, currency: str = "bitcoin", coin_amount: float = 0.01):
         """Retrieves NetworkFee for the supplied cryptocurrency.
@@ -109,7 +111,7 @@ class Wallet(BuyCoinsClient):
         """
 
         if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
+            return WalletError("Invalid or unsupported cryptocurrency", 404).response
 
         self.__query = """
             query NetworkFee($currency: Cryptocurrency, $amount: BigDecimal!) {
@@ -127,11 +129,12 @@ class Wallet(BuyCoinsClient):
 
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
-            return response["data"]["getEstimatedNetworkFee"]
+            if not check_response(WalletError, response, 404):
+                return response["data"]["getEstimatedNetworkFee"]
+            return check_response(WalletError, response, 404)
 
     def createAddress(self, currency: str = "bitcoin"):
         """Creates a wallet address for the supplied cryptocurrency.
@@ -144,7 +147,7 @@ class Wallet(BuyCoinsClient):
         """
 
         if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
+            return WalletError("Invalid or unsupported cryptocurrency", 404).response
 
         self.__query = """
             mutation CreateWalletAddress($currency: Cryptocurrency) {
@@ -161,11 +164,12 @@ class Wallet(BuyCoinsClient):
 
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
-            return response["data"]["createAddress"]
+            if not check_response(WalletError, response, 404):
+                return response["data"]["createAddress"]
+            return check_response(WalletError, response, 404)
 
     def sendCrypto(self, address: str, currency: str = "bitcoin", amount: float = 0.01):
         """Sells a cryptocurrency, for the given amount passed.
@@ -179,7 +183,7 @@ class Wallet(BuyCoinsClient):
         """
 
         if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
+            return WalletError("Invalid or unsupported cryptocurrency", 404).response
 
         if len(address) < 34 or len(address) > 34:
             raise WalletError("Invalid address")
@@ -209,11 +213,12 @@ class Wallet(BuyCoinsClient):
 
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
-            return response["data"]["SendCoin"]
+            if not check_response(WalletError, response, 404):
+                return response["data"]["SendCoin"]
+            return check_response(WalletError, response, 404)
 
     def getBalances(self):
         """Retrieves user cryptocurrency balances
@@ -235,8 +240,9 @@ class Wallet(BuyCoinsClient):
 
         try:
             response = self._execute_request(query=self.__query)
-            check_response(WalletError, response)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
-            return response["data"]["getBalances"]
+            if not check_response(WalletError, response, 404):
+                return response["data"]["getBalances"]
+            return check_response(WalletError, response, 404)

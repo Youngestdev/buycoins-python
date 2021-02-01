@@ -29,12 +29,12 @@ class BuyCoinsClient:
 
     def _execute_request(self, query: str, variables: dict = {}):
         if not query or query == "":
-            raise QueryError("Invalid query passed!")
+            return QueryError("Invalid query passed!", 404)
 
         try:
             self._initiate_client()
             request = self.__client.execute(query=query, variables=variables)
         except HTTPError as e:
-            return e
+            return e.response
         else:
             return request

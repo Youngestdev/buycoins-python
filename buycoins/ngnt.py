@@ -19,7 +19,7 @@ class NGNT(BuyCoinsClient):
         """
 
         if not accountName:
-            raise AccountError("Invalid account name passed")
+            return AccountError("Invalid account name passed", 404).response
 
         self.accountName = accountName
 
@@ -40,8 +40,9 @@ class NGNT(BuyCoinsClient):
         """
         try:
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(AccountError, response)
         except (AccountError, ClientError) as e:
-            return e.args
+            return e.response
         else:
-            return response["data"]["createDepositAccount"]
+            if not check_response(AccountError, response, 404):
+                return response["data"]["createDepositAccount"]
+            return check_response(AccountError, response, 404)

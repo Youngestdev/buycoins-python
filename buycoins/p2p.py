@@ -5,16 +5,11 @@ from buycoins.exceptions import P2PError, ClientError
 
 class P2P(BuyCoinsClient):
     """The P2P class handles peer-2-peer transactions.
-
-    Args:
-        auth_key (str): Authentication key in `public_key:private_key` string form.
     """
 
-    def __init__(self, auth_key: str):
-        super().__init__(auth_key)
-        self.supported_cryptocurrencies = ["bitcoin", "ethereum", "litecoin", "naira_token", "usd_coin", "usd_tether"]
-        self.side = ["buy", "sell"]
-        self.status = ["open", "completed"]
+    supported_cryptocurrencies = ["bitcoin", "ethereum", "litecoin", "naira_token", "usd_coin", "usd_tether"]
+    side = ["buy", "sell"]
+    status = ["open", "completed"]
 
     def getCurrentPrice(self, side: str = "buy", currency: str = "bitcoin"):
         """Retrieves the current `side` price for the supplied cryptocurrency.

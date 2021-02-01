@@ -6,15 +6,11 @@ from buycoins.p2p import P2P
 class Wallet(BuyCoinsClient):
     """The Wallet class handles the buying, selling, buy transactions and the generation of wallet address 
     for receiving cryptocurrencies.
-    
-    Args:
-        auth_key (str): Authentication key in `public_key:private_key` string form.
     """
 
-    def __init__(self, auth_key: str):
-        super().__init__(auth_key)
-        self.supported_cryptocurrencies = ["bitcoin", "ethereum", "litecoin", "naira_token", "usd_coin", "usd_tether"]
-        self.status = ["open", "completed"]
+
+    supported_cryptocurrencies = ["bitcoin", "ethereum", "litecoin", "naira_token", "usd_coin", "usd_tether"]
+    status = ["open", "completed"]
 
     def buyCrypto(self, currency: str = "bitcoin", coin_amount: float = 0.01):
         """Buys a cryptocurrency, for the given amount passed.
@@ -30,7 +26,7 @@ class Wallet(BuyCoinsClient):
         if currency not in self.supported_cryptocurrencies:
             raise WalletError("Invalid or unsupported cryptocurrency")
 
-        p2p = P2P(self.auth_key)
+        p2p = P2P()
         price_info = p2p.getCurrentPrice(side="buy", currency=currency)
         price_id = price_info[0]['id']
         self.__query = """
@@ -72,7 +68,7 @@ class Wallet(BuyCoinsClient):
         if currency not in self.supported_cryptocurrencies:
             raise WalletError("Invalid or unsupported cryptocurrency")
 
-        p2p = P2P(self.auth_key)
+        p2p = P2P()
         price_info = p2p.getCurrentPrice(side="sell", currency=currency)
         price_id = price_info[0]['id']
         self.__query = """
@@ -185,7 +181,7 @@ class Wallet(BuyCoinsClient):
         if currency not in self.supported_cryptocurrencies:
             raise WalletError("Invalid or unsupported cryptocurrency")
 
-        if len(address) != 34:
+        if len(address) < 34 or len(address) > 34:
             raise WalletError("Invalid address")
 
         self.__query = """

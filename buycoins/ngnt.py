@@ -5,15 +5,7 @@ from buycoins.exceptions import AccountError, ClientError
 
 class NGNT(BuyCoinsClient):
     """The NGNT class handles the generations of virtual bank deposit account.
-
-    Args:
-        auth_key (str): Authentication key in `public_key:private_key` string form.
-
-
     """
-
-    def __init__(self, auth_key: str):
-        super().__init__(auth_key)
 
     def createDepositAccount(self, accountName: str):
         """Creates a virtual deposit account under the supplied name.

@@ -1,18 +1,22 @@
+from decouple import config
 from python_graphql_client import GraphqlClient
 from requests.auth import HTTPBasicAuth
 from requests.exceptions import HTTPError
 
 from buycoins.exceptions import QueryError
 
+auth_key = config("auth_key")
+
+
 class BuyCoinsClient:
-    def __init__(self, auth_key: str):
+    def __init__(self, auth_key: str = auth_key):
         self.__endpoint = "https://backend.buycoins.tech/api/graphql"
         self.__username = ""
         self.__password = ""
-        self.auth_key = auth_key
+        self.__auth_key = auth_key
 
     def _split_auth_key(self):
-        self.__username, self.__password = self.auth_key.split(":")
+        self.__username, self.__password = self.__auth_key.split(":")
 
     def _initiate_client(self):
         self._split_auth_key()
@@ -24,7 +28,7 @@ class BuyCoinsClient:
         else:
             return self.__client
 
-    def _execute_request(self, query: str, variables: dict= {}):
+    def _execute_request(self, query: str, variables: dict = {}):
         if not query or query == "":
             raise QueryError("Invalid query passed!")
 

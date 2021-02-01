@@ -7,7 +7,6 @@ from buycoins.exceptions import QueryError
 
 auth_key = config("auth_key")
 
-
 class BuyCoinsClient:
     def __init__(self, auth_key: str = auth_key):
         self.__endpoint = "https://backend.buycoins.tech/api/graphql"

@@ -1,7 +1,7 @@
 from buycoins.client import BuyCoinsClient
-from buycoins.errors import check_response
 from buycoins.exceptions import WalletError, ClientError
 from buycoins.p2p import P2P
+from buycoins.utils import check_response
 
 
 class Wallet(BuyCoinsClient):
@@ -23,34 +23,34 @@ class Wallet(BuyCoinsClient):
             response: A JSON object containing response from the request.
         """
 
-        if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
-
-        p2p = P2P()
-        price_info = p2p.getCurrentPrice(side="buy", currency=currency)
-        price_id = price_info[0]['id']
-        self.__query = """
-            mutation BuyCoin($price: ID!, $coin_amount: BigDecimal!, $currency: Cryptocurrency){
-                    buy(price: $price, coin_amount: $coin_amount, cryptocurrency: $currency) {
-                        id
-                        cryptocurrency
-                        status
-                        totalCoinAmount
-                        side
-                    }
-                }
-            """
-
-        __variables = {
-            "price": price_id,
-            "coin_amount": coin_amount,
-            "currency": currency
-        }
         try:
+            if currency not in self.supported_cryptocurrencies:
+                raise WalletError("Invalid or unsupported cryptocurrency", 404)
+
+            p2p = P2P()
+            price_info = p2p.getCurrentPrice(side="buy", currency=currency)
+            price_id = price_info[0]["id"]
+            self.__query = """
+                mutation BuyCoin($price: ID!, $coin_amount: BigDecimal!, $currency: Cryptocurrency){
+                        buy(price: $price, coin_amount: $coin_amount, cryptocurrency: $currency) {
+                            id
+                            cryptocurrency
+                            status
+                            totalCoinAmount
+                            side
+                        }
+                    }
+                """
+
+            __variables = {
+                "price": price_id,
+                "coin_amount": coin_amount,
+                "currency": currency
+            }
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
+            check_response(response, WalletError)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
             return response["data"]["buy"]
 
@@ -65,35 +65,35 @@ class Wallet(BuyCoinsClient):
             response: A JSON object containing response from the request.
         """
 
-        if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
-
-        p2p = P2P()
-        price_info = p2p.getCurrentPrice(side="sell", currency=currency)
-        price_id = price_info[0]['id']
-        self.__query = """
-            mutation SellCoin($price: ID!, $coin_amount: BigDecimal!, $currency: Cryptocurrency){
-                    sell(price: $price, coin_amount: $coin_amount, cryptocurrency: $currency) {
-                        id
-                        cryptocurrency
-                        status
-                        totalCoinAmount
-                        side
-                    }
-                }
-            """
-
-        __variables = {
-            "price": price_id,
-            "coin_amount": coin_amount,
-            "currency": currency
-        }
-
         try:
+            if currency not in self.supported_cryptocurrencies:
+                raise WalletError("Invalid or unsupported cryptocurrency", 404)
+
+            p2p = P2P()
+            price_info = p2p.getCurrentPrice(side="sell", currency=currency)
+            price_id = price_info[0]["id"]
+            self.__query = """
+                mutation SellCoin($price: ID!, $coin_amount: BigDecimal!, $currency: Cryptocurrency){
+                        sell(price: $price, coin_amount: $coin_amount, cryptocurrency: $currency) {
+                            id
+                            cryptocurrency
+                            status
+                            totalCoinAmount
+                            side
+                        }
+                    }
+                """
+
+            __variables = {
+                "price": price_id,
+                "coin_amount": coin_amount,
+                "currency": currency
+            }
+
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
+            check_response(response, WalletError)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
             return response["data"]["sell"]
 
@@ -108,28 +108,28 @@ class Wallet(BuyCoinsClient):
             response: A JSON object containing response from the request.
         """
 
-        if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
-
-        self.__query = """
-            query NetworkFee($currency: Cryptocurrency, $amount: BigDecimal!) {
-                getEstimatedNetworkFee(cryptocurrency: $currency, amount: $amount) {
-                    estimatedFee
-                    total
-                }
-            }
-        """
-
-        __variables = {
-            "currency": currency,
-            "amount": coin_amount
-        }
-
         try:
+            if currency not in self.supported_cryptocurrencies:
+                raise WalletError("Invalid or unsupported cryptocurrency", 404)
+
+            self.__query = """
+                query NetworkFee($currency: Cryptocurrency, $amount: BigDecimal!) {
+                    getEstimatedNetworkFee(cryptocurrency: $currency, amount: $amount) {
+                        estimatedFee
+                        total
+                    }
+                }
+            """
+
+            __variables = {
+                "currency": currency,
+                "amount": coin_amount
+            }
+
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
+            check_response(response, WalletError)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
             return response["data"]["getEstimatedNetworkFee"]
 
@@ -143,27 +143,27 @@ class Wallet(BuyCoinsClient):
             response: A JSON object containing response from the request.
         """
 
-        if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
-
-        self.__query = """
-            mutation CreateWalletAddress($currency: Cryptocurrency) {
-                createAddress(cryptocurrency: $currency) {
-                    cryptocurrency
-                    address
-                }
-            }
-        """
-
-        __variables = {
-            "currency": currency
-        }
-
         try:
+            if currency not in self.supported_cryptocurrencies:
+                raise WalletError("Invalid or unsupported cryptocurrency", 404)
+
+            self.__query = """
+                mutation CreateWalletAddress($currency: Cryptocurrency) {
+                    createAddress(cryptocurrency: $currency) {
+                        cryptocurrency
+                        address
+                    }
+                }
+            """
+
+            __variables = {
+                "currency": currency
+            }
+
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
+            check_response(response, WalletError)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
             return response["data"]["createAddress"]
 
@@ -178,40 +178,40 @@ class Wallet(BuyCoinsClient):
             response: A JSON object containing response from the request.
         """
 
-        if currency not in self.supported_cryptocurrencies:
-            raise WalletError("Invalid or unsupported cryptocurrency")
+        try:
+            if currency not in self.supported_cryptocurrencies:
+                raise WalletError("Invalid or unsupported cryptocurrency", 404)
 
-        if len(address) < 34 or len(address) > 34:
-            raise WalletError("Invalid address")
+            if len(address) < 34 or len(address) > 34:
+                raise WalletError("Invalid address", 404)
 
-        self.__query = """
-            mutation SendCrypto($amount: BigDecimal!, $currency: Cryptocurrency, $address:String!){
-                send SendCoin(cryptocurrency: $currency, amount:$amount, address:address) {
-                    id
-                    address
-                    amount
-                    cryptocurrency
-                    fee
-                    status
-                    transaction {
-                        txhash
+            self.__query = """
+                mutation SendCrypto($amount: BigDecimal!, $currency: Cryptocurrency, $address:String!){
+                    send SendCoin(cryptocurrency: $currency, amount:$amount, address:address) {
                         id
+                        address
+                        amount
+                        cryptocurrency
+                        fee
+                        status
+                        transaction {
+                            txhash
+                            id
+                        }
                     }
                 }
+                """
+
+            __variables = {
+                "address": address,
+                "amount": amount,
+                "currency": currency
             }
-            """
 
-        __variables = {
-            "address": address,
-            "amount": amount,
-            "currency": currency
-        }
-
-        try:
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(WalletError, response)
+            check_response(response, WalletError)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
             return response["data"]["SendCoin"]
 
@@ -223,20 +223,20 @@ class Wallet(BuyCoinsClient):
 
         """
 
-        self.__query = """
-            query {
-                getBalances {
-                    id
-                    cryptocurrency
-                    confirmedBalance
-                }
-            }
-        """
-
         try:
+
+            self.__query = """
+                query {
+                    getBalances {
+                        id
+                        cryptocurrency
+                        confirmedBalance
+                    }
+                }
+            """
             response = self._execute_request(query=self.__query)
-            check_response(WalletError, response)
+            check_response(response, WalletError)
         except (WalletError, ClientError) as e:
-            return e.args
+            return e.response
         else:
             return response["data"]["getBalances"]

@@ -1,8 +1,5 @@
 from requests.exceptions import ConnectionError
 
-# class ConnectionError(ConnectionError):
-
-
 class ClientError(Exception):
     def __init__(self, *args):
         if args:

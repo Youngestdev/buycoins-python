@@ -7,7 +7,6 @@ from buycoins.exceptions import QueryError, ClientError
 
 auth_key = config("auth_key")
 
-
 class BuyCoinsClient:
     def __init__(self):
         self.__endpoint = "https://backend.buycoins.tech/api/graphql"
@@ -27,21 +26,6 @@ class BuyCoinsClient:
             return e
         else:
             return self.__client
-
-    # def check_request(self, request):
-    #     try:
-    #         if type(request) == ConnectionError:
-    #             print("Stage I: ", request)
-    #             raise ClientError("Connection Error", 404)
-    #
-    #         elif type(request) == HTTPError:
-    #             print("Stage II: ", request)
-    #             raise ClientError("HTTP Error", 404)
-    #     except ClientError as e:
-    #         return e.response
-    #     else:
-    #         print("AHAN!")
-    #         # return request
 
     def _execute_request(self, query: str, variables: dict = {}):
         if not query or query == "":

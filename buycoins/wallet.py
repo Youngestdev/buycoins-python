@@ -22,7 +22,7 @@ class Wallet(BuyCoinsClient):
         Returns:
             response: A JSON object containing response from the request.
         """
-
+  
         try:
             if currency not in self.supported_cryptocurrencies:
                 raise WalletError("Invalid or unsupported cryptocurrency", 404)

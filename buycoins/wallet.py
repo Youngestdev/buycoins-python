@@ -182,12 +182,12 @@ class Wallet(BuyCoinsClient):
             if currency not in self.supported_cryptocurrencies:
                 raise WalletError("Invalid or unsupported cryptocurrency", 404)
 
-            if len(address) < 34 or len(address) > 34:
+            if not address:
                 raise WalletError("Invalid address", 404)
 
             self.__query = """
-                mutation SendCrypto($amount: BigDecimal!, $currency: Cryptocurrency, $address:String!){
-                    send SendCoin(cryptocurrency: $currency, amount:$amount, address:address) {
+                mutation SendCrypto($amount: BigDecimal!, $currency: Cryptocurrency, $address: String!){
+                    send(cryptocurrency: $currency, amount: $amount, address: $address) {
                         id
                         address
                         amount

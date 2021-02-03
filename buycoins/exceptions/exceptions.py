@@ -18,7 +18,7 @@ class ClientError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "ClientError: " + self.message
         }
 
 
@@ -35,7 +35,7 @@ class QueryError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "QueryError: " + self.message
         }
 
 
@@ -52,7 +52,7 @@ class P2PError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "P2PError: " + self.message
         }
 
 
@@ -69,7 +69,7 @@ class AccountError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "AccountError: " + self.message
         }
 
 
@@ -86,5 +86,5 @@ class WalletError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "WalletError" + self.message
         }

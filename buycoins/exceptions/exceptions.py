@@ -1,3 +1,10 @@
+"""
+The Exception classes below are child classes of Python's `Exception` class.
+
+Returns:
+    A JSON object containing the message and status code.
+"""
+
 class ClientError(Exception):
     def __init__(self, *args):
         if args:

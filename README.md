@@ -6,11 +6,11 @@ The BuyCoins Python library allows interactions with the BuyCoins API from appli
 
 You can view the documentation for the BuyCoins Python library [here](https://buycoins.youngest.dev).
 
-> The official API documentation can be found on the [BuyCoins developer portal.](https://https://developers.buycoins.africa/).
+> The official BuyCoins API documentation can be found on the [BuyCoins developer portal.](https://https://developers.buycoins.africa/).
 
 ## Installation
 
-This package can be installed from [pypi]() using the command:
+This package can be installed from [PyPi]() using the command:
 
 ```shell
 pip install buycoins-python
@@ -36,6 +36,9 @@ Create a `.env` file and set your authentication key in the format below:
 auth_key="public key:private key"
 ```
 
+If you don't have a public and private key, follow the procedures
+on [How do I get access?](https://developers.buycoins.africa/#how-do-i-get-access).
+
 Example usage of the library is:
 
 ```python
@@ -47,9 +50,6 @@ buycoins_user = Wallet()
 
 print(buycoins_user.getBalances())
 ```
-
-If you don't have a public and private key, follow the procedures
-on [How do I get access?](https://developers.buycoins.africa/#how-do-i-get-access).
 
 ## Handling Exceptions
 
@@ -89,7 +89,7 @@ print(response)
 
 ## Contributing
 
-I will add-Guidelines for contribution. [TODO]
+Check [CONTRIBUTING.MD](./CONTRIBUTING.MD)
 
 ## Authors
 
@@ -98,4 +98,4 @@ I will add-Guidelines for contribution. [TODO]
 
 ## License
 
-See LICENCE.MD.
+See [LICENCE.MD](./LICENSE).

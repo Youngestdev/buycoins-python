@@ -1,3 +1,10 @@
+"""
+The Exception classes below are child classes of Python's `Exception` class.
+
+Returns:
+    A JSON object containing the message and status code.
+"""
+
 class ClientError(Exception):
     def __init__(self, *args):
         if args:
@@ -11,7 +18,7 @@ class ClientError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "ClientError: " + self.message
         }
 
 
@@ -28,7 +35,7 @@ class QueryError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "QueryError: " + self.message
         }
 
 
@@ -45,7 +52,7 @@ class P2PError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "P2PError: " + self.message
         }
 
 
@@ -62,7 +69,7 @@ class AccountError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "AccountError: " + self.message
         }
 
 
@@ -79,5 +86,5 @@ class WalletError(Exception):
     def response(self):
         return {
             "status_code": self.status_code,
-            "message": self.message
+            "message": "WalletError" + self.message
         }

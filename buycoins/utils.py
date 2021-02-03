@@ -14,16 +14,22 @@ def check_response(response, exception):
         None
 
     """
+
     if not exception:
         exception = Exception
 
     if type(response) == ConnectionError:
-        raise ClientError(response.__doc__, 404)
+        message = "{}: Failed to establish a connection".format(response.__doc__)
+        raise ClientError(message, 404)
     elif type(response) == HTTPError:
-        error = response.response.json()
-        error_message = error["errors"]
         status_code = response.response.status_code
-        raise ClientError(error_message, status_code)
+        if str(status_code).startswith('4'):
+            json_response = response.response.json()
+            error_message = json_response['errors']
+            raise ClientError(error_message, status_code)
+        else:
+            error_message = response.__doc__
+            raise ClientError(error_message, status_code)
     elif "errors" in response:
         error = response["errors"][0]
         error_message = error["message"]

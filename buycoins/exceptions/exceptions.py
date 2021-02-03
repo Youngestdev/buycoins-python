@@ -9,15 +9,16 @@ class ClientError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
-            self.status_code = args[1]
+            self.code = args[1]
         else:
             self.message = None
-            self.status_code = 401
+            self.code = 401
 
     @property
     def response(self):
         return {
-            "status_code": self.status_code,
+            "status": "ClientError",
+            "code": self.code,
             "message": "ClientError: " + self.message
         }
 
@@ -26,16 +27,17 @@ class QueryError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
-            self.status_code = args[1]
+            self.code = args[1]
         else:
             self.message = None
-            self.status_code = 404
+            self.code = 404
 
     @property
     def response(self):
         return {
-            "status_code": self.status_code,
-            "message": "QueryError: " + self.message
+            "status": "QueryError",
+            "code": self.code,
+            "message": self.message
         }
 
 
@@ -43,15 +45,16 @@ class P2PError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
-            self.status_code = args[1]
+            self.code = args[1]
         else:
             self.message = None
-            self.status_code = 404
+            self.code = 404
 
     @property
     def response(self):
         return {
-            "status_code": self.status_code,
+            "status": "P2PError",
+            "code": self.code,
             "message": "P2PError: " + self.message
         }
 
@@ -60,16 +63,17 @@ class AccountError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
-            self.status_code = args[1]
+            self.code = args[1]
         else:
             self.message = None
-            self.status_code = 404
+            self.code = 404
 
     @property
     def response(self):
         return {
-            "status_code": self.status_code,
-            "message": "AccountError: " + self.message
+            "status": "AccountError",
+            "code": self.code,
+            "message": self.message
         }
 
 
@@ -77,14 +81,15 @@ class WalletError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
-            self.status_code = args[1]
+            self.code = args[1]
         else:
             self.message = None
-            self.status_code = 404
+            self.code = 404
 
     @property
     def response(self):
         return {
-            "status_code": self.status_code,
-            "message": "WalletError" + self.message
+            "status": "WalletError",
+            "code": self.code,
+            "message": self.message
         }

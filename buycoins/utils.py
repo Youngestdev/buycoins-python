@@ -19,8 +19,8 @@ def check_response(response, exception):
         exception = Exception
 
     if type(response) == ConnectionError:
-        message = "{}: Failed to establish a connection".format(response.__doc__)
-        raise ClientError(message, 404)
+        message = "{} Failed to establish a connection".format(response.__doc__)
+        raise ClientError(message, 503)
     elif type(response) == HTTPError:
         status_code = response.response.status_code
         if str(status_code).startswith('4'):

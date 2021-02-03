@@ -25,7 +25,7 @@ class Wallet(BuyCoinsClient):
   
         try:
             if currency not in self.supported_cryptocurrencies:
-                raise WalletError("Invalid or unsupported cryptocurrency", 404)
+                raise WalletError("Invalid or unsupported cryptocurrency", 400)
 
             p2p = P2P()
             price_info = p2p.getCurrentPrice(orderSide="buy", currency=currency)
@@ -67,7 +67,7 @@ class Wallet(BuyCoinsClient):
 
         try:
             if currency not in self.supported_cryptocurrencies:
-                raise WalletError("Invalid or unsupported cryptocurrency", 404)
+                raise WalletError("Invalid or unsupported cryptocurrency", 400)
 
             p2p = P2P()
             price_info = p2p.getCurrentPrice(orderSide="sell", currency=currency)
@@ -110,7 +110,7 @@ class Wallet(BuyCoinsClient):
 
         try:
             if currency not in self.supported_cryptocurrencies:
-                raise WalletError("Invalid or unsupported cryptocurrency", 404)
+                raise WalletError("Invalid or unsupported cryptocurrency", 400)
 
             self.__query = """
                 query NetworkFee($currency: Cryptocurrency, $amount: BigDecimal!) {
@@ -145,7 +145,7 @@ class Wallet(BuyCoinsClient):
 
         try:
             if currency not in self.supported_cryptocurrencies:
-                raise WalletError("Invalid or unsupported cryptocurrency", 404)
+                raise WalletError("Invalid or unsupported cryptocurrency", 400)
 
             self.__query = """
                 mutation CreateWalletAddress($currency: Cryptocurrency) {
@@ -180,10 +180,10 @@ class Wallet(BuyCoinsClient):
 
         try:
             if currency not in self.supported_cryptocurrencies:
-                raise WalletError("Invalid or unsupported cryptocurrency", 404)
+                raise WalletError("Invalid or unsupported cryptocurrency", 400)
 
             if not address:
-                raise WalletError("Invalid address", 404)
+                raise WalletError("Invalid address", 400)
 
             self.__query = """
                 mutation SendCrypto($amount: BigDecimal!, $currency: Cryptocurrency, $address: String!){

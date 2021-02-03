@@ -19,7 +19,7 @@ class NGNT(BuyCoinsClient):
         """
         try:
             if not accountName:
-                raise AccountError("Invalid account name passed", 404)
+                raise AccountError("Invalid account name passed", 400)
 
             self.accountName = accountName
 

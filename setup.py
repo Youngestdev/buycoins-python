@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="buycoins-python",
-    version="0.3.1",
+    version="0.3.3",
     description="Python SDK for the BuyCoin\"s API",
     long_description=README,
     long_description_content_type="text/markdown",

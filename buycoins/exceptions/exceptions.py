@@ -5,6 +5,25 @@ Returns:
     A JSON object containing the message and status code.
 """
 
+
+class ServerError(Exception):
+    def __init__(self, *args):
+        if args:
+            self.message = args[0]
+            self.code = args[1]
+        else:
+            self.message = None
+            self.code = 500
+
+    @property
+    def response(self):
+        return {
+            "status": "ServerError",
+            "code": self.code,
+            "message": "ClientError: " + self.message
+        }
+
+
 class ClientError(Exception):
     def __init__(self, *args):
         if args:

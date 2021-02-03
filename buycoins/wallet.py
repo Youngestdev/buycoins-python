@@ -1,5 +1,5 @@
 from buycoins.client import BuyCoinsClient
-from buycoins.exceptions import WalletError, ClientError
+from buycoins.exceptions import WalletError, ClientError, ServerError
 from buycoins.p2p import P2P
 from buycoins.utils import check_response
 
@@ -49,7 +49,7 @@ class Wallet(BuyCoinsClient):
             }
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(response, WalletError)
-        except (WalletError, ClientError) as e:
+        except (WalletError, ClientError, ServerError) as e:
             return e.response
         else:
             return response["data"]["buy"]
@@ -92,7 +92,7 @@ class Wallet(BuyCoinsClient):
 
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(response, WalletError)
-        except (WalletError, ClientError) as e:
+        except (WalletError, ClientError, ServerError) as e:
             return e.response
         else:
             return response["data"]["sell"]
@@ -128,7 +128,7 @@ class Wallet(BuyCoinsClient):
 
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(response, WalletError)
-        except (WalletError, ClientError) as e:
+        except (WalletError, ClientError, ServerError) as e:
             return e.response
         else:
             return response["data"]["getEstimatedNetworkFee"]
@@ -162,7 +162,7 @@ class Wallet(BuyCoinsClient):
 
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(response, WalletError)
-        except (WalletError, ClientError) as e:
+        except (WalletError, ClientError, ServerError) as e:
             return e.response
         else:
             return response["data"]["createAddress"]
@@ -210,7 +210,7 @@ class Wallet(BuyCoinsClient):
 
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(response, WalletError)
-        except (WalletError, ClientError) as e:
+        except (WalletError, ClientError, ServerError) as e:
             return e.response
         else:
             return response["data"]["SendCoin"]
@@ -236,7 +236,7 @@ class Wallet(BuyCoinsClient):
             """
             response = self._execute_request(query=self.__query)
             check_response(response, WalletError)
-        except (WalletError, ClientError) as e:
+        except (WalletError, ClientError, ServerError) as e:
             return e.response
         else:
             return response["data"]["getBalances"]

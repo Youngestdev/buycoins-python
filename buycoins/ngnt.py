@@ -1,5 +1,5 @@
 from buycoins.client import BuyCoinsClient
-from buycoins.exceptions import AccountError, ClientError
+from buycoins.exceptions import AccountError, ClientError, ServerError
 from buycoins.utils import check_response
 
 
@@ -40,7 +40,7 @@ class NGNT(BuyCoinsClient):
             """
             response = self._execute_request(query=self.__query, variables=__variables)
             check_response(response, AccountError)
-        except (AccountError, ClientError) as e:
+        except (AccountError, ClientError, ServerError) as e:
             return e.response
         else:
             return response

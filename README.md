@@ -39,9 +39,9 @@ auth_key="public key:private key"
 Example usage of the library is:
 
 ```python
-from buycoins import NGNT
+from buycoins import Wallet
 
-buycoins_user = NGNT()
+buycoins_user = Wallet()
 
 # Print the account balances of each cryptocurrency the buycoins_user have.
 

@@ -3,7 +3,7 @@ from python_graphql_client import GraphqlClient
 from requests.auth import HTTPBasicAuth
 from requests.exceptions import HTTPError, ConnectionError
 
-from buycoins.exceptions import QueryError, ClientError
+from buycoins.exceptions import QueryError
 
 auth_key = config("auth_key")
 
@@ -35,8 +35,6 @@ class BuyCoinsClient:
             self._initiate_client()
             request = self.__client.execute(query=query, variables=variables)
 
-        except ClientError as e:
-            return e.response
         except HTTPError as e:
             return e
         except QueryError as e:

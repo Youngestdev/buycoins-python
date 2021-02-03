@@ -11,11 +11,11 @@ class P2P(BuyCoinsClient):
     side = ["buy", "sell"]
     status = ["open", "completed"]
 
-    def getCurrentPrice(self, side: str = "buy", currency: str = "bitcoin"):
+    def getCurrentPrice(self, orderSide: str = "buy", currency: str = "bitcoin"):
         """Retrieves the current `side` price for the supplied cryptocurrency.
 
         Args:
-            side (str):  The order side which can either be buy or sell.
+            orderSide (str):  The order side which can either be buy or sell.
             currency (str): The cryptocurrency whose current price is to be retrieved.
 
         Returns:
@@ -25,7 +25,7 @@ class P2P(BuyCoinsClient):
             if currency not in self.supported_cryptocurrencies:
                 raise P2PError("Invalid or unsupported cryptocurrency")
 
-            if side not in self.side:
+            if orderSide not in self.side:
                 raise P2PError("Invalid order side")
 
             self.__query = """
@@ -46,7 +46,7 @@ class P2P(BuyCoinsClient):
             """
 
             __variables = {
-                "side": side,
+                "side": orderSide,
                 "currency": currency
             }
 
@@ -58,12 +58,10 @@ class P2P(BuyCoinsClient):
             return response["data"]["getPrices"]
 
     def getDynamicPriceExpiry(self, status: str = "open", side: str = "buy", currency: str = "bitcoin"):
-        """Retrieves the dynamic price for the supplied cryptocurrency.
+        """Retrieves the dynamic prices for available cryptocurrencies.
 
         Args:
             status (str): The status of the current order.
-            side (str): The order side which can either be buy or sell.
-            currency (str): The cryptocurrency whose price is to be retrieved.
 
         Returns:
             response: A JSON object containing the response from the request.
@@ -82,8 +80,8 @@ class P2P(BuyCoinsClient):
                 raise P2PError("Invalid or unsupported cryptocurrency")
 
             self.__query = """
-                query GetOrders($status: GetOrdersStatus!, $side: OrderSide, $currency: Cryptocurrency){
-                    getOrders(status: $status, side: $side, cryptocurrency: $currency) {
+                query GetOrders($status: GetOrdersStatus!){
+                    getOrders(status: $status) {
                         dynamicPriceExpiry    
                     }
                 }
@@ -91,8 +89,6 @@ class P2P(BuyCoinsClient):
 
             __variables = {
                 "status": status,
-                "side": side,
-                "currency": currency
             }
 
             response = self._execute_request(query=self.__query, variables=__variables)

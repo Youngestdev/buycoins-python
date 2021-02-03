@@ -28,7 +28,7 @@ class Wallet(BuyCoinsClient):
                 raise WalletError("Invalid or unsupported cryptocurrency", 404)
 
             p2p = P2P()
-            price_info = p2p.getCurrentPrice(side="buy", currency=currency)
+            price_info = p2p.getCurrentPrice(orderSide="buy", currency=currency)
             price_id = price_info[0]["id"]
             self.__query = """
                 mutation BuyCoin($price: ID!, $coin_amount: BigDecimal!, $currency: Cryptocurrency){
@@ -70,7 +70,7 @@ class Wallet(BuyCoinsClient):
                 raise WalletError("Invalid or unsupported cryptocurrency", 404)
 
             p2p = P2P()
-            price_info = p2p.getCurrentPrice(side="sell", currency=currency)
+            price_info = p2p.getCurrentPrice(orderSide="sell", currency=currency)
             price_id = price_info[0]["id"]
             self.__query = """
                 mutation SellCoin($price: ID!, $coin_amount: BigDecimal!, $currency: Cryptocurrency){
@@ -167,12 +167,12 @@ class Wallet(BuyCoinsClient):
         else:
             return response["data"]["createAddress"]
 
-    def sendCrypto(self, address: str, currency: str = "bitcoin", amount: float = 0.01):
+    def sendCrypto(self, address: str, currency: str = "bitcoin", coin_amount: float = 0.01):
         """Sells a cryptocurrency, for the given amount passed.
 
         Args:
             currency (str): The cryptocurrency to be sold.
-            amount(float): Amount of currency to be bought.
+            coin_amount(float): Amount of currency to be bought.
 
         Returns:
             response: A JSON object containing response from the request.
@@ -204,7 +204,7 @@ class Wallet(BuyCoinsClient):
 
             __variables = {
                 "address": address,
-                "amount": amount,
+                "amount": coin_amount,
                 "currency": currency
             }
 

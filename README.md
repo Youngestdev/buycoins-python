@@ -54,7 +54,7 @@ on [How do I get access?](https://developers.buycoins.africa/#how-do-i-get-acces
 ## Handling Exceptions
 
 The library comes built-in with exception handlers for unsuccessful requests. This is documented in
-the [exceptions](https://buycoins.youngest.dev/api/exceptions) page.
+the [exceptions](https://buycoins.youngest.dev/exceptions) page.
 
 ## Executing your own queries
 

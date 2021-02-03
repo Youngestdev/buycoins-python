@@ -1,14 +1,14 @@
 from decouple import config
 from python_graphql_client import GraphqlClient
 from requests.auth import HTTPBasicAuth
-from requests.exceptions import HTTPError
+from requests.exceptions import HTTPError, ConnectionError
 
-from buycoins.exceptions import QueryError
+from buycoins.exceptions import QueryError, ClientError
 
 auth_key = config("auth_key")
 
 class BuyCoinsClient:
-    def __init__(self, auth_key: str = auth_key):
+    def __init__(self):
         self.__endpoint = "https://backend.buycoins.tech/api/graphql"
         self.__username = ""
         self.__password = ""
@@ -22,7 +22,7 @@ class BuyCoinsClient:
         try:
             self.__auth = HTTPBasicAuth(self.__username, self.__password)
             self.__client = GraphqlClient(self.__endpoint, auth=self.__auth)
-        except HTTPError as e:
+        except (HTTPError, ConnectionError) as e:
             return e
         else:
             return self.__client
@@ -34,7 +34,14 @@ class BuyCoinsClient:
         try:
             self._initiate_client()
             request = self.__client.execute(query=query, variables=variables)
+
+        except ClientError as e:
+            return e.response
         except HTTPError as e:
+            return e
+        except QueryError as e:
+            return e.response
+        except ConnectionError as e:
             return e
         else:
             return request

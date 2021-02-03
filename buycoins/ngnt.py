@@ -1,6 +1,6 @@
 from buycoins.client import BuyCoinsClient
-from buycoins.errors import check_response
 from buycoins.exceptions import AccountError, ClientError
+from buycoins.utils import check_response
 
 
 class NGNT(BuyCoinsClient):
@@ -17,31 +17,30 @@ class NGNT(BuyCoinsClient):
             response: A JSON object containing the response from the request.
 
         """
-
-        if not accountName:
-            raise AccountError("Invalid account name passed")
-
-        self.accountName = accountName
-
-        __variables = {
-            "accountName": self.accountName
-        }
-
-        self.__query = """
-            mutation createDepositAccount($accountName: String!) {
-                createDepositAccount(accountName: $accountName) {
-                    accountNumber
-                    accountName
-                    accountType
-                    bankName
-                    accountReference
-              }
-            }
-        """
         try:
+            if not accountName:
+                raise AccountError("Invalid account name passed", 404)
+
+            self.accountName = accountName
+
+            __variables = {
+                "accountName": self.accountName
+            }
+
+            self.__query = """
+                mutation createDepositAccount($accountName: String!) {
+                    createDepositAccount(accountName: $accountName) {
+                        accountNumber
+                        accountName
+                        accountType
+                        bankName
+                        accountReference
+                  }
+                }
+            """
             response = self._execute_request(query=self.__query, variables=__variables)
-            check_response(AccountError, response)
+            check_response(response, AccountError)
         except (AccountError, ClientError) as e:
-            return e.args
+            return e.response
         else:
-            return response["data"]["createDepositAccount"]
+            return response

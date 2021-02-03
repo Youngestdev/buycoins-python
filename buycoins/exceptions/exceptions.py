@@ -2,64 +2,82 @@ class ClientError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
+            self.status_code = args[1]
         else:
             self.message = None
+            self.status_code = 401
 
-    def __str__(self):
-        if self.message:
-            return "ClientError, {0}".format(self.message)
-        else:
-            return "A ClientError has been raised"
+    @property
+    def response(self):
+        return {
+            "status_code": self.status_code,
+            "message": self.message
+        }
+
 
 class QueryError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
+            self.status_code = args[1]
         else:
             self.message = None
+            self.status_code = 404
 
-    def __str__(self):
-        if self.message:
-            return "QueryError, {0} ".format(self.message)
-        else:
-            return "A QueryError has been raised"
+    @property
+    def response(self):
+        return {
+            "status_code": self.status_code,
+            "message": self.message
+        }
+
 
 class P2PError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
+            self.status_code = args[1]
         else:
             self.message = None
+            self.status_code = 404
 
-    def __str__(self):
-        if self.message:
-            return "P2PError, {0} ".format(self.message)
-        else:
-            return "A P2P has been raised"
+    @property
+    def response(self):
+        return {
+            "status_code": self.status_code,
+            "message": self.message
+        }
+
 
 class AccountError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
+            self.status_code = args[1]
         else:
             self.message = None
+            self.status_code = 404
 
-    def __str__(self):
-        if self.message:
-            return "AccountError, {0} ".format(self.message)
-        else:
-            return "An AccountError has been raised"
+    @property
+    def response(self):
+        return {
+            "status_code": self.status_code,
+            "message": self.message
+        }
+
 
 class WalletError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
+            self.status_code = args[1]
         else:
             self.message = None
+            self.status_code = 404
 
-    def __str__(self):
-        if self.message:
-            return 'Wallet, {0} '.format(self.message)
-        else:
-            return 'A WalletError has been raised'
-
+    @property
+    def response(self):
+        return {
+            "status_code": self.status_code,
+            "message": self.message
+        }

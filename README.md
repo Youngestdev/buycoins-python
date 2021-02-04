@@ -1,4 +1,5 @@
 # BuyCoins Python Library
+![Build Status](https://travis-ci.com/Youngestdev/BuyCoins-Python.svg?token=pbxtdupXniDaRVenvvya&branch=main)
 
 The BuyCoins Python library allows interactions with the BuyCoins API from applications written in Python.
 

@@ -43,4 +43,4 @@ class NGNT(BuyCoinsClient):
         except (AccountError, ClientError, ServerError) as e:
             return e.response
         else:
-            return response
+            return response['data']['createDepositAccount']

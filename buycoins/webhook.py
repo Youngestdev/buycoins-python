@@ -3,9 +3,7 @@ import hmac
 
 
 class Webhook:
-    """The Webhook class is responsible for verifying requests sent to your BuyCoins webhook URL.
-
-    """
+    """The Webhook class is responsible for verifying requests sent to your BuyCoins webhook URL."""
 
     def __init__(self, body: bytes, token: str, header_signature: str = "X-Webhook-Signature"):
         """
@@ -19,7 +17,7 @@ class Webhook:
         self.body = body
         self.header_signature = header_signature
 
-    def verifyRequest(self):
+    def verify_request(self):
         """Verify the supplied request.
 
         Returns:

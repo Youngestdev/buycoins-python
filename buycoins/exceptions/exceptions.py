@@ -17,11 +17,7 @@ class ServerError(Exception):
 
     @property
     def response(self):
-        return {
-            "status": "ServerError",
-            "code": self.code,
-            "message": "ClientError: " + self.message
-        }
+        return {"status": "ServerError", "code": self.code, "message": self.message}
 
 
 class ClientError(Exception):
@@ -35,11 +31,7 @@ class ClientError(Exception):
 
     @property
     def response(self):
-        return {
-            "status": "ClientError",
-            "code": self.code,
-            "message": "ClientError: " + self.message
-        }
+        return {"status": "ClientError", "code": self.code, "message": self.message}
 
 
 class QueryError(Exception):
@@ -53,11 +45,7 @@ class QueryError(Exception):
 
     @property
     def response(self):
-        return {
-            "status": "QueryError",
-            "code": self.code,
-            "message": self.message
-        }
+        return {"status": "QueryError", "code": self.code, "message": self.message}
 
 
 class P2PError(Exception):
@@ -71,11 +59,7 @@ class P2PError(Exception):
 
     @property
     def response(self):
-        return {
-            "status": "P2PError",
-            "code": self.code,
-            "message": "P2PError: " + self.message
-        }
+        return {"status": "P2PError", "code": self.code, "message": +self.message}
 
 
 class AccountError(Exception):
@@ -89,11 +73,7 @@ class AccountError(Exception):
 
     @property
     def response(self):
-        return {
-            "status": "AccountError",
-            "code": self.code,
-            "message": self.message
-        }
+        return {"status": "AccountError", "code": self.code, "message": self.message}
 
 
 class WalletError(Exception):
@@ -107,8 +87,4 @@ class WalletError(Exception):
 
     @property
     def response(self):
-        return {
-            "status": "WalletError",
-            "code": self.code,
-            "message": self.message
-        }
+        return {"status": "WalletError", "code": self.code, "message": self.message}

@@ -14,9 +14,7 @@ def _build_response(response: dict):
     Returns:
         A dictionary object containing mocked response from mocked request.
     """
-    return json.dumps(
-        dict(data=response)
-    )
+    return json.dumps(dict(data=response))
 
 
 def _mock_request(response: dict):

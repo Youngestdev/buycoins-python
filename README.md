@@ -48,7 +48,7 @@ buycoins_user = Wallet()
 
 # Print the account balances of each cryptocurrency the buycoins_user have.
 
-print(buycoins_user.getBalances())
+print(buycoins_user.get_balances())
 ```
 
 ## Handling Exceptions

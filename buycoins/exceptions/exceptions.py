@@ -1,114 +1,39 @@
-"""
-The Exception classes below are child classes of Python's `Exception` class.
-
-Returns:
-    A JSON object containing the message and status code.
-"""
-
-
-class ServerError(Exception):
-    def __init__(self, *args):
-        if args:
-            self.message = args[0]
-            self.code = args[1]
-        else:
-            self.message = None
-            self.code = 500
-
-    @property
-    def response(self):
-        return {
-            "status": "ServerError",
-            "code": self.code,
-            "message": "ClientError: " + self.message
-        }
-
-
-class ClientError(Exception):
-    def __init__(self, *args):
-        if args:
-            self.message = args[0]
-            self.code = args[1]
-        else:
-            self.message = None
-            self.code = 401
-
-    @property
-    def response(self):
-        return {
-            "status": "ClientError",
-            "code": self.code,
-            "message": "ClientError: " + self.message
-        }
-
-
 class QueryError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
-            self.code = args[1]
         else:
             self.message = None
-            self.code = 404
 
-    @property
-    def response(self):
-        return {
-            "status": "QueryError",
-            "code": self.code,
-            "message": self.message
-        }
-
+    def __str__(self):
+        if self.message:
+            return 'QueryError, {0} '.format(self.message)
+        else:
+            return 'A QueryError has been raised'
 
 class P2PError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
-            self.code = args[1]
         else:
             self.message = None
-            self.code = 404
 
-    @property
-    def response(self):
-        return {
-            "status": "P2PError",
-            "code": self.code,
-            "message": "P2PError: " + self.message
-        }
-
+    def __str__(self):
+        if self.message:
+            return 'P2PError, {0} '.format(self.message)
+        else:
+            return 'A P2P has been raised'
 
 class AccountError(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
-            self.code = args[1]
         else:
             self.message = None
-            self.code = 404
 
-    @property
-    def response(self):
-        return {
-            "status": "AccountError",
-            "code": self.code,
-            "message": self.message
-        }
-
-
-class WalletError(Exception):
-    def __init__(self, *args):
-        if args:
-            self.message = args[0]
-            self.code = args[1]
+    def __str__(self):
+        if self.message:
+            return 'AccountError, {0} '.format(self.message)
         else:
-            self.message = None
-            self.code = 404
+            return 'An AccountError has been raised'
 
-    @property
-    def response(self):
-        return {
-            "status": "WalletError",
-            "code": self.code,
-            "message": self.message
-        }

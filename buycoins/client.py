@@ -5,11 +5,12 @@ from requests.exceptions import HTTPError, ConnectionError
 
 from buycoins.exceptions import QueryError
 
+ENDPOINT = "https://backend.buycoins.tech/api/graphql"
 auth_key = config("auth_key")
 
 class BuyCoinsClient:
     def __init__(self):
-        self.__endpoint = "https://backend.buycoins.tech/api/graphql"
+        self.__endpoint = ENDPOINT
         self.__username = ""
         self.__password = ""
         self.__auth_key = auth_key

@@ -127,14 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 # JetBrains
 .idea/
 buycoins/test.py
-
-=======
->>>>>>> 2557ed9... Initial commit
-=======
->>>>>>> 2557ed9... Initial commit

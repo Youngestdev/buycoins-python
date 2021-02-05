@@ -155,7 +155,7 @@ class Wallet(BuyCoinsClient):
             return response["data"]["createAddress"]
 
     def send_crypto(self, address: str, currency: str = "bitcoin", coin_amount: float = 0.01):
-        """Sells a cryptocurrency, for the given amount passed.
+        """Sends a cryptocurrency, for the given amount passed.
 
         Args:
             currency (str): The cryptocurrency to be sold.

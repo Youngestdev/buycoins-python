@@ -1,6 +1,6 @@
 import pytest
 
-createDepositAccount=dict(
+createDepositAccount = dict(
     accountNumber=12345678901,
     accountName="Buycoins Africa",
     accountType="deposit",
@@ -115,7 +115,7 @@ get_market_book = dict(
     ),
 )
 
-buy=dict(
+buy = dict(
     id="QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE=",
     cryptocurrency="bitcoin",
     status="processing",
@@ -123,7 +123,7 @@ buy=dict(
     side="buy",
 )
 
-sell=dict(
+sell = dict(
     id="QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE=",
     cryptocurrency="usd_tether",
     status="processing",
@@ -132,7 +132,7 @@ sell=dict(
 )
 
 
-send=dict(
+send = dict(
     id="QnV5Y29pbnNQ=",
     address="1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf",
     amount=0.02,
@@ -142,15 +142,15 @@ send=dict(
     transaction=dict(
         txhash="hybuojpkllmjvvcdersxkjijmkllbvdsabl",
         id="QnV5Y29pbnNQ=",
-    )
+    ),
 )
-                        
-getEstimatedNetworkFee=dict(
+
+getEstimatedNetworkFee = dict(
     estimatedFee=0.00044,
     total=0.01044,
 )
 
-createAddress=dict(cryptocurrency="usd_tether", address="0x3856c5511ac5344eb85d439e338ae0f1b5dbe34a")
+createAddress = dict(cryptocurrency="usd_tether", address="0x3856c5511ac5344eb85d439e338ae0f1b5dbe34a")
 
 bitcoin_balance = dict(getBalances=[dict(id="QWNjb3VudC0=", cryptocurrency="bitcoin", confirmedBalance=0.009)])
 

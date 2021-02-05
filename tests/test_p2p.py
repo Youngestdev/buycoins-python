@@ -11,12 +11,12 @@ from tests.mock_responses import (
     post_market_order,
     place_limit_order,
 )
-from tests.utils import _mock_request
 
 P2P = Mock()
 
+
 def test_coins_price():
-    P2P.get_prices.return_value=coins_price
+    P2P.get_prices.return_value = coins_price
     response = P2P.get_prices()
     assert response["getPrices"][0]["id"] == "QnV5Y29pbnNQcmljZS0wMTdjYzBlMS05NWFjLTQ5N2YtODg4Mi0yNjU1NDRiNGRmODM="
     assert response["getPrices"][0]["cryptocurrency"] == "bitcoin"
@@ -48,8 +48,8 @@ def test_coins_price():
 
 
 def test_coin_price():
-    P2P.get_current_price.return_value=coin_price
-    
+    P2P.get_current_price.return_value = coin_price
+
     response = P2P.get_current_price(order_side="buy", currency="bitcoin")
     assert response["getPrices"]["buyPricePerCoin"] == "17164294"
     assert response["getPrices"]["cryptocurrency"] == "bitcoin"
@@ -64,7 +64,7 @@ def test_coin_price():
 
 
 def test_open_dynamic_price():
-    P2P.get_dynamic_price_expiry.return_value= open_status_dynamic_price
+    P2P.get_dynamic_price_expiry.return_value = open_status_dynamic_price
 
     response = P2P.get_dynamic_price_expiry()
     assert response["dynamicPriceExpiry"] == 1612305372
@@ -72,7 +72,7 @@ def test_open_dynamic_price():
 
 def test_completed_dynamic_price():
     P2P.get_dynamic_price_expiry.return_value = completed_status_dynamic_price
-    
+
     response = P2P.get_dynamic_price_expiry(status="completed")
     assert response["dynamicPriceExpiry"] == 1612304472
 

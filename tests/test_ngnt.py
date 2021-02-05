@@ -1,12 +1,12 @@
 from unittest.mock import Mock
 from buycoins import NGNT
 from tests.mock_responses import createDepositAccount
-from tests.utils import _mock_request
 
 NGNT = Mock()
 
-def test_setting_accountname():
-    NGNT.create_deposit_account.return_value = createDepositAccount    
+
+def test_setting_account_name():
+    NGNT.create_deposit_account.return_value = createDepositAccount
 
     response = NGNT.create_deposit_account("Buycoins Africa")
     assert response["accountName"] == "Buycoins Africa"

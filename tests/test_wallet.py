@@ -1,7 +1,6 @@
 from unittest.mock import Mock
 
 from buycoins import Wallet
-from tests.utils import _mock_request
 from tests.mock_responses import (
     getEstimatedNetworkFee,
     createAddress,
@@ -25,6 +24,7 @@ def test_buy_coins():
     assert response["totalCoinAmount"] == 0.01
     assert response["side"] == "buy"
 
+
 def test_sell_coins():
     Wallet.sell_crypto.return_value = sell
     response = Wallet.sell_crypto(currency="usd_tether", coin_amount=0.002)
@@ -34,6 +34,7 @@ def test_sell_coins():
     assert response["totalCoinAmount"] == 0.002
     assert response["side"] == "sell"
 
+
 def test_send_coins():
     Wallet.send_crypto.return_value = send
     response = Wallet.send_crypto(currency="bitcoin", coin_amount=0.03, address="1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf")
@@ -41,6 +42,7 @@ def test_send_coins():
     assert response["cryptocurrency"] == "bitcoin"
     assert response["address"] == "1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf"
     assert response["transaction"]["txhash"] == "hybuojpkllmjvvcdersxkjijmkllbvdsabl"
+
 
 def test_network_fee():
     Wallet.get_network_fee.return_value = getEstimatedNetworkFee

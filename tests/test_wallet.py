@@ -13,13 +13,10 @@ from tests.mock_responses import (
 from unittest.mock import Mock, patch
 
 Wallet = Mock()
-price_id = "QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE="
 #Mock buy_crypto price_id and return value
-Wallet.buy_crypto.price_id = price_id
 Wallet.buy_crypto.return_value = buy_crypto_coin
 
-#Mock sell_crypto price_id and return value
-Wallet.sell_crypto.price_id = price_id
+#Mock sell_crypto return value
 Wallet.sell_crypto.return_value = sell_crypto_coin
 
 #Mock send_crypto return value
@@ -29,7 +26,7 @@ def test_buy_coins():
     response = Wallet.buy_crypto(currency="bitcoin", coin_amount=0.01)
 
     assert response["buy"]["cryptocurrency"] == "bitcoin"
-    assert response["buy"]["id"] == price_id
+    assert response["buy"]["id"] == "QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE="
     assert response["buy"]["totalCoinAmount"] == 0.01
     assert response["buy"]["side"] == "buy"
 
@@ -37,7 +34,7 @@ def test_sell_coins():
     response = Wallet.sell_crypto(currency="usd_tether", coin_amount=0.002)
 
     assert response["sell"]["cryptocurrency"] == "usd_tether"
-    assert response["sell"]["id"] == price_id
+    assert response["sell"]["id"] == "QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE="
     assert response["sell"]["totalCoinAmount"] == 0.002
     assert response["sell"]["side"] == "sell"
 

@@ -5,7 +5,7 @@ The BuyCoins Python library allows interactions with the BuyCoins API from appli
 
 ## Documentation
 
-You can view the documentation for the BuyCoins Python library [here](https://buycoins.youngest.dev).
+You can view the documentation for the BuyCoins Python library [here](https://youngestdev.gitbook.io/buycoins-python-library).
 
 > The official BuyCoins API documentation can be found on the [BuyCoins developer portal.](https://https://developers.buycoins.africa/)
 
@@ -55,7 +55,7 @@ print(buycoins_user.get_balances())
 ## Handling Exceptions
 
 The library comes built-in with exception handlers for unsuccessful requests. This is documented in
-the [exceptions](https://buycoins.youngest.dev/exceptions) page.
+the [exceptions](https://youngestdev.gitbook.io/buycoins-python-library/exceptions) page.
 
 ## Executing your own queries
 

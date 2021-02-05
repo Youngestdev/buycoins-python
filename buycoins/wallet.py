@@ -198,7 +198,7 @@ class Wallet(BuyCoinsClient):
         else:
             return response["data"]["SendCoin"]
 
-    def get_balances(self):
+    def get_balances(self, currency=None):
         """Retrieves user cryptocurrency balances
 
         Returns:
@@ -207,18 +207,33 @@ class Wallet(BuyCoinsClient):
         """
 
         try:
-
-            self._query = """
-                query {
-                    getBalances {
+            if currency:
+                self._query = """
+                query($currency: Cryptocurrency) {
+                    getBalances(cryptocurrency: $currency) {
                         id
                         cryptocurrency
                         confirmedBalance
                     }
                 }
             """
-            response = self._execute_request(query=self._query)
-            check_response(response, WalletError)
+
+                _variables = {"currency": currency}
+                response = self._execute_request(query=self._query, variables=_variables)
+                check_response(response, WalletError)
+
+            else:
+                self._query = """
+                    query {
+                        getBalances {
+                            id
+                            cryptocurrency
+                            confirmedBalance
+                        }
+                    }
+                """
+                response = self._execute_request(query=self._query)
+                check_response(response, WalletError)
         except (WalletError, ClientError, ServerError) as e:
             return e.response
         else:

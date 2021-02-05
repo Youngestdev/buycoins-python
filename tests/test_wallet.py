@@ -1,66 +1,61 @@
-from tests.utils import _mock_request
-from tests.class_fixtures import wallet_user
+from unittest.mock import Mock
+
 from buycoins import Wallet
+from tests.utils import _mock_request
 from tests.mock_responses import (
-    network_fee,
-    address,
+    getEstimatedNetworkFee,
+    createAddress,
     all_coins_balances,
     bitcoin_balance,
-    buy_crypto_coin,
-    sell_crypto_coin,
-    send_crypto_coin,
+    buy,
+    sell,
+    send,
 )
-from unittest.mock import Mock, patch
+
 
 Wallet = Mock()
-#Mock buy_crypto price_id and return value
-
-#Mock sell_crypto return value
-
-#Mock send_crypto return value
-
 
 
 def test_buy_coins():
-    Wallet.buy_crypto.return_value = buy_crypto_coin
+    Wallet.buy_crypto.return_value = buy
     response = Wallet.buy_crypto(currency="bitcoin", coin_amount=0.01)
 
-    assert response["buy"]["cryptocurrency"] == "bitcoin"
-    assert response["buy"]["id"] == "QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE="
-    assert response["buy"]["totalCoinAmount"] == 0.01
-    assert response["buy"]["side"] == "buy"
+    assert response["cryptocurrency"] == "bitcoin"
+    assert response["id"] == "QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE="
+    assert response["totalCoinAmount"] == 0.01
+    assert response["side"] == "buy"
 
 def test_sell_coins():
-    Wallet.sell_crypto.return_value = sell_crypto_coin
+    Wallet.sell_crypto.return_value = sell
     response = Wallet.sell_crypto(currency="usd_tether", coin_amount=0.002)
 
-    assert response["sell"]["cryptocurrency"] == "usd_tether"
-    assert response["sell"]["id"] == "QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE="
-    assert response["sell"]["totalCoinAmount"] == 0.002
-    assert response["sell"]["side"] == "sell"
+    assert response["cryptocurrency"] == "usd_tether"
+    assert response["id"] == "QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE="
+    assert response["totalCoinAmount"] == 0.002
+    assert response["side"] == "sell"
 
 def test_send_coins():
-    Wallet.send_crypto.return_value = send_crypto_coin
+    Wallet.send_crypto.return_value = send
     response = Wallet.send_crypto(currency="bitcoin", coin_amount=0.03, address="1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf")
 
-    assert response["send"]["cryptocurrency"] == "bitcoin"
-    assert response["send"]["address"] == "1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf"
-    assert response["send"]["transaction"]["txhash"] == "hybuojpkllmjvvcdersxkjijmkllbvdsabl"
+    assert response["cryptocurrency"] == "bitcoin"
+    assert response["address"] == "1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf"
+    assert response["transaction"]["txhash"] == "hybuojpkllmjvvcdersxkjijmkllbvdsabl"
 
 def test_network_fee():
-    Wallet.get_network_fee.return_value = network_fee
+    Wallet.get_network_fee.return_value = getEstimatedNetworkFee
     response = Wallet.get_network_fee(currency="bitcoin", coin_amount=0.01)
 
-    assert response["getEstimatedNetworkFee"]["estimatedFee"] == 0.00044
-    assert response["getEstimatedNetworkFee"]["total"] == 0.01044
+    assert response["estimatedFee"] == 0.00044
+    assert response["total"] == 0.01044
 
 
 def test_create_address():
-    Wallet.create_address.return_value = address
+    Wallet.create_address.return_value = createAddress
     response = Wallet.create_address(currency="usd_tether")
 
-    assert response["createAddress"]["cryptocurrency"] == "usd_tether"
-    assert response["createAddress"]["address"] == "0x3856c5511ac5344eb85d439e338ae0f1b5dbe34a"
+    assert response["cryptocurrency"] == "usd_tether"
+    assert response["address"] == "0x3856c5511ac5344eb85d439e338ae0f1b5dbe34a"
 
 
 def test_get_bitcoin_balace():

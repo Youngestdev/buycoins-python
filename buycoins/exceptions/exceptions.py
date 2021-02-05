@@ -59,7 +59,7 @@ class P2PError(Exception):
 
     @property
     def response(self):
-        return {"status": "P2PError", "code": self.code, "message": +self.message}
+        return {"status": "P2PError", "code": self.code, "message": self.message}
 
 
 class AccountError(Exception):

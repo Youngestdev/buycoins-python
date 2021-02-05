@@ -23,9 +23,9 @@ def check_response(response, exception):
         raise ServerError(message, 503)
     elif type(response) == HTTPError:
         status_code = response.response.status_code
-        if str(status_code).startswith('4'):
+        if str(status_code).startswith("4"):
             json_response = response.response.json()
-            error_message = json_response['errors']
+            error_message = json_response["errors"]
             raise ClientError(error_message, status_code)
         else:
             error_message = response.__doc__

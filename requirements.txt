@@ -2,4 +2,5 @@ python-graphql-client
 requests
 python-decouple
 httpretty
+mock
 pytest

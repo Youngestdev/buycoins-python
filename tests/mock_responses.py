@@ -126,12 +126,37 @@ buy_crypto_coin = dict(
     buy=dict(
         id="QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE=",
         cryptocurrency="bitcoin",
-        status="confirmed",
-        totalCoinAmount=0.001,
+        status="processing",
+        totalCoinAmount=0.01,
         side="buy",
     )
 )
 
+sell_crypto_coin = dict(
+    sell=dict(
+        id="QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE=",
+        cryptocurrency="usd_tether",
+        status="processing",
+        totalCoinAmount=0.002,
+        side="sell",
+    )
+)
+
+send_crypto_coin = dict(
+    send=dict(
+        id="QnV5Y29pbnNQ=",
+        address="1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf",
+        amount=0.02,
+        cryptocurrency="bitcoin",
+        fee=0.01,
+        status="processing",
+        transaction=dict(
+            txhash="hybuojpkllmjvvcdersxkjijmkllbvdsabl",
+            id="QnV5Y29pbnNQ=",
+        )
+    )
+)
+                        
 network_fee = dict(
     getEstimatedNetworkFee=dict(
         estimatedFee=0.00044,

@@ -1,9 +1,54 @@
 from tests.utils import _mock_request
 from tests.class_fixtures import wallet_user
-from tests.mock_responses import network_fee, address, all_coins_balances, bitcoin_balance
+from buycoins import Wallet
+from tests.mock_responses import (
+    network_fee,
+    address,
+    all_coins_balances,
+    bitcoin_balance,
+    buy_crypto_coin,
+    sell_crypto_coin,
+    send_crypto_coin,
+)
+from unittest.mock import Mock, patch
 
+Wallet = Mock()
+price_id = "QnV5Y29pbnNQcmljZS05NjNmZTExOS02ZGVhLTRlMDItYTc3NC1lZjViYjk3YWZiNGE="
+#Mock buy_crypto price_id and return value
+Wallet.buy_crypto.price_id = price_id
+Wallet.buy_crypto.return_value = buy_crypto_coin
 
-def test_buy_coins(wallet_user):
+#Mock sell_crypto price_id and return value
+Wallet.sell_crypto.price_id = price_id
+Wallet.sell_crypto.return_value = sell_crypto_coin
+
+#Mock send_crypto return value
+Wallet.send_crypto.return_value = send_crypto_coin
+
+def test_buy_coins():
+    response = Wallet.buy_crypto(currency="bitcoin", coin_amount=0.01)
+
+    assert response["buy"]["cryptocurrency"] == "bitcoin"
+    assert response["buy"]["id"] == price_id
+    assert response["buy"]["totalCoinAmount"] == 0.01
+    assert response["buy"]["side"] == "buy"
+
+def test_sell_coins():
+    response = Wallet.sell_crypto(currency="usd_tether", coin_amount=0.002)
+
+    assert response["sell"]["cryptocurrency"] == "usd_tether"
+    assert response["sell"]["id"] == price_id
+    assert response["sell"]["totalCoinAmount"] == 0.002
+    assert response["sell"]["side"] == "sell"
+
+def test_send_coins():
+    response = Wallet.send_crypto(currency="bitcoin", coin_amount=0.03, address="1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf")
+
+    assert response["send"]["cryptocurrency"] == "bitcoin"
+    assert response["send"]["address"] == "1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf"
+    assert response["send"]["transaction"]["txhash"] == "hybuojpkllmjvvcdersxkjijmkllbvdsabl"
+
+def test_network_fee(wallet_user):
     _mock_request(network_fee)
     response = wallet_user.get_network_fee(currency="bitcoin", coin_amount=0.01)
 

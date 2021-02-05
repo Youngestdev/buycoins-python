@@ -1,5 +1,14 @@
 from tests.class_fixtures import p2p_user
-from tests.mock_responses import coins_price, coin_price, get_orders, get_market_book, open_status_dynamic_price, completed_status_dynamic_price, post_market_order, place_limit_order
+from tests.mock_responses import (
+    coins_price,
+    coin_price,
+    get_orders,
+    get_market_book,
+    open_status_dynamic_price,
+    completed_status_dynamic_price,
+    post_market_order,
+    place_limit_order,
+)
 from tests.utils import _mock_request
 
 

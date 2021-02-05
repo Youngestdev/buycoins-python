@@ -1,6 +1,7 @@
 import pytest
 from buycoins import *
 
+
 @pytest.fixture(autouse=True)
 def buycoins_user():
     """
@@ -12,6 +13,7 @@ def buycoins_user():
     buycoins_user = NGNT()
     return buycoins_user
 
+
 @pytest.fixture(autouse=True)
 def p2p_user():
     """
@@ -22,6 +24,7 @@ def p2p_user():
 
     p2p_user = P2P()
     return p2p_user
+
 
 @pytest.fixture(autouse=True)
 def wallet_user():

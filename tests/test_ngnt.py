@@ -1,5 +1,3 @@
-import pytest
-
 from tests.class_fixtures import buycoins_user
 from tests.mock_responses import ngnt_account
 from tests.utils import _mock_request
@@ -12,10 +10,7 @@ def test_setting_accountname(buycoins_user):
     assert create_deposit_account["accountNumber"] == 12345678901
     assert create_deposit_account["accountType"] == "deposit"
     assert create_deposit_account["bankName"] == "Providus Bank"
-    assert (
-        create_deposit_account["accountReference"]
-        == "abcdefgh-12v4-nu38-89ff-278974r48"
-    )
+    assert create_deposit_account["accountReference"] == "abcdefgh-12v4-nu38-89ff-278974r48"
 
 
 def test_invalid_accountname(buycoins_user):

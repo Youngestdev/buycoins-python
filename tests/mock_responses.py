@@ -139,54 +139,17 @@ network_fee = dict(
     )
 )
 
-address = dict(
-    createAddress=dict(
-        cryptocurrency="usd_tether",
-        address="0x3856c5511ac5344eb85d439e338ae0f1b5dbe34a"
-    )
-)
+address = dict(createAddress=dict(cryptocurrency="usd_tether", address="0x3856c5511ac5344eb85d439e338ae0f1b5dbe34a"))
 
-bitcoin_balance = dict(
-    getBalances=[
-        dict(
-            id="QWNjb3VudC0=",
-            cryptocurrency="bitcoin",
-            confirmedBalance=0.009
-        )
-    ]
-)
+bitcoin_balance = dict(getBalances=[dict(id="QWNjb3VudC0=", cryptocurrency="bitcoin", confirmedBalance=0.009)])
 
 all_coins_balances = dict(
     getBalances=[
-        dict(
-            id="QWNjb3VudC0=",
-            cryptocurrency="usd_tether",
-            confirmedBalance=0.0
-        ),
-        dict(
-            id="QWNjb3VudC0=",
-            cryptocurrency="naira_token",
-            confirmedBalance=0.0
-        ),
-        dict(
-            id="QWNjb3VudC0=",
-            cryptocurrency="bitcoin",
-            confirmedBalance=0.009
-        ),
-        dict(
-            id="QWNjb3VudC0=",
-            cryptocurrency="ethereum",
-            confirmedBalance=1.000
-        ),
-        dict(
-            id="QWNjb3VudC0=",
-            cryptocurrency="litecoin",
-            confirmedBalance=0.0
-        ),
-        dict(
-            id="QWNjb3VudC0=",
-            cryptocurrency="usd_coin",
-            confirmedBalance=0.0
-        )
+        dict(id="QWNjb3VudC0=", cryptocurrency="usd_tether", confirmedBalance=0.0),
+        dict(id="QWNjb3VudC0=", cryptocurrency="naira_token", confirmedBalance=0.0),
+        dict(id="QWNjb3VudC0=", cryptocurrency="bitcoin", confirmedBalance=0.009),
+        dict(id="QWNjb3VudC0=", cryptocurrency="ethereum", confirmedBalance=1.000),
+        dict(id="QWNjb3VudC0=", cryptocurrency="litecoin", confirmedBalance=0.0),
+        dict(id="QWNjb3VudC0=", cryptocurrency="usd_coin", confirmedBalance=0.0),
     ]
 )

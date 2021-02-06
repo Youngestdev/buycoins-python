@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="buycoins-python",
-    version="0.5.1",
+    version="0.5.2",
     description="Python SDK for the BuyCoin\"s API",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -18,6 +18,7 @@ setup(
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
     ],
     install_requires=["python-graphql-client", "requests", "python-decouple"],

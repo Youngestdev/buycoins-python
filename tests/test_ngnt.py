@@ -14,10 +14,3 @@ def test_setting_account_name():
     assert response["accountType"] == "deposit"
     assert response["bankName"] == "Providus Bank"
     assert response["accountReference"] == "abcdefgh-12v4-nu38-89ff-278974r48"
-
-
-# def test_invalid_accountname():
-#     invalid_deposit_account = NGNT.create_deposit_account("")
-#     assert invalid_deposit_account["status"] == "AccountError"
-#     assert invalid_deposit_account["code"] == 400
-#     assert invalid_deposit_account["message"] == "Invalid account name passed"

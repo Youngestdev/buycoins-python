@@ -7,11 +7,11 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="buycoins-python",
-    version="0.5",
+    version="0.5.1",
     description="Python SDK for the BuyCoin\"s API",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/Youngestdev/BuyCoins-Python",
+    url="https://github.com/Youngestdev/buycoins-python",
     author="Abdulazeez Abdulazeez Adeshina",
     author_email="youngestdev@gmail.com",
     license="MIT",
